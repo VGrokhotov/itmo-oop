@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "lab1": {
+      "commandName": "Project",
+      "commandLineArgs": "9",
+      "workingDirectory": "C:\\Users\\Lenonvo\\Documents\\C#\\lab1\\lab1\\lab1"
+    }
+  }
+}
