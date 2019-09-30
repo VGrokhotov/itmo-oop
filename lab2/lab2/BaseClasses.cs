@@ -24,6 +24,11 @@ namespace lab2
             this.Damage = damage;
             this.Initiative = initiative;
         }
+
+        public Unit Clone()
+        {
+            return new Unit(this.Type, this.Name, this.HitPoints, this.Attack, this.Defence, this.Damage, this.Initiative);
+        }
     }
 
     class UnitsStack
@@ -54,13 +59,29 @@ namespace lab2
         {
             return ($"{this.UnitType.Name}: {this.Amount}\n");
         }
+
+        public UnitsStack Clone()
+        {
+            return new UnitsStack(this.UnitType.Clone(), this.Amount);
+        }
     }
 
     class Army
     {
-        public List<UnitsStack> StacksList { get; } = new List<UnitsStack>();
+        private List<UnitsStack> stacksList = new List<UnitsStack>();
 
-        public int Amount => StacksList.Count;
+        public List<UnitsStack> StacksList
+        {
+            get
+            {
+                var newStacksList = new List<UnitsStack>();
+                stacksList.ForEach((item) => newStacksList.Add(item.Clone()));
+                return newStacksList;
+            }
+        }
+
+
+        public int Amount => stacksList.Count;
 
         public void AppendStack(UnitsStack currentStack)
         {
@@ -69,12 +90,12 @@ namespace lab2
                 //Console.WriteLine("Too much Unit Stacks");
             }
             else
-                StacksList.Add(currentStack);
+                stacksList.Add(currentStack);
         }
 
         public bool DeleteStack(UnitsStack currentStack)
         {
-            if (this.StacksList.Remove(currentStack))
+            if (this.stacksList.Remove(currentStack))
                 return true;
             else
                 return false;
@@ -82,8 +103,8 @@ namespace lab2
 
         public override string ToString()
         {
-            string result = "Army: ";
-            foreach (var stack in StacksList)
+            string result = "Army:\n";
+            foreach (var stack in stacksList)
             {
                 result += stack.ToString();
             }
