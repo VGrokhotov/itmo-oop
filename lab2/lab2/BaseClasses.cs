@@ -1,99 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace lab2
 {
     
     class Unit
     {
-        private uint tipe;
-        public uint Tipe => tipe;
+        public uint Type { get; }
+        public string Name { get; }
+        public int HitPoints { get; }
+        public int Attack { get; }
+        public int Defence { get; }
+        public (int, int) Damage { get; }
+        public double Initiative { get; }
 
-        private string name;
-        public string Name => name;
-
-        private int hitPoints;
-        public int HitPoints => hitPoints;
-        private int attack;
-        public int Attack => attack;
-        private int defence;
-        public int Defence => defence;
-        private (int, int) damage;
-        public (int, int) Damage => damage;
-        private double initiative;
-        public double Initiative => initiative;
-
-        public Unit(uint tipe, string name, int hitPoints, int attack, int defence, (int, int) damage,
+        public Unit(uint type, string name, int hitPoints, int attack, int defence, (int, int) damage,
             double initiative)
         {
-            this.tipe = tipe;
-            this.name = name;
-            this.hitPoints = hitPoints;
-            this.attack = attack;
-            this.defence = defence;
-            this.damage = damage;
-            this.initiative = initiative;
+            this.Type = type;
+            this.Name = name;
+            this.HitPoints = hitPoints;
+            this.Attack = attack;
+            this.Defence = defence;
+            this.Damage = damage;
+            this.Initiative = initiative;
         }
     }
 
     class UnitsStack
     {
-        private Unit unitType;
-        private int amount;
+        public Unit UnitType { get; }
 
-        public int Amount
-        {
-            get => amount;
-            set => amount = value;
-        }
+        public int Amount { get; set; }
 
         public bool IsStackAlive
         {
             get
             {
-                if (amount > 0)
+                if (Amount > 0)
                     return true;
                 else
                     return false;
             }
         }
 
-        public Unit UnitType => unitType;
 
         public UnitsStack(Unit unitType, int amount)
         {
-            this.amount = amount;
-            this.unitType = unitType;
+            this.Amount = amount;
+            this.UnitType = unitType;
+        }
+
+        public override string ToString()
+        {
+            return ($"{this.UnitType.Name}: {this.Amount}\n");
         }
     }
 
     class Army
     {
-        private List<UnitsStack> stacksList;
+        public List<UnitsStack> StacksList { get; } = new List<UnitsStack>();
 
-        public int Amount => stacksList.Count;
+        public int Amount => StacksList.Count;
 
         public void AppendStack(UnitsStack currentStack)
         {
             if (this.Amount > 5)
             {
                 //Console.WriteLine("Too much Unit Stacks");
-                return;
             }
             else
-                stacksList.Add(currentStack);
+                StacksList.Add(currentStack);
         }
 
         public bool DeleteStack(UnitsStack currentStack)
         {
-            if (this.stacksList.Remove(currentStack))
+            if (this.StacksList.Remove(currentStack))
                 return true;
             else
                 return false;
         }
 
-        //public ??? get list of stacks
-
+        public override string ToString()
+        {
+            string result = "Army: ";
+            foreach (var stack in StacksList)
+            {
+                result += stack.ToString();
+            }
+            return result;
+        }
     }
 }
