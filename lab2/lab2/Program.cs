@@ -6,9 +6,9 @@ namespace lab2
     {
         static void Main(string[] args)
         {
-            Unit lol = new Unit(1, "lol", 30,5, 1, new Pair<int, int>(3, 3), 1);
+            Unit lol = new Unit(1, "lol", 30,5, 1, damage: (3, 3), 1);
             UnitsStack first = new UnitsStack(lol, 3);
-            Console.WriteLine(first.UnitType);
+            Console.WriteLine(first.UnitType.Damage);
         }
     }
 }

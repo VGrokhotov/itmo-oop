@@ -4,17 +4,7 @@ using System.Text;
 
 namespace lab2
 {
-    public class Pair<T, K>
-    {
-        public T First { get; set; }
-        public K Second { get; set; }
-
-        public Pair(T first, K second)
-        {
-            First = first;
-            Second = second;
-        }
-    }
+    
     class Unit
     {
         private uint tipe;
@@ -29,12 +19,12 @@ namespace lab2
         public int Attack => attack;
         private int defence;
         public int Defence => defence;
-        private Pair<int, int> damage;
-        public Pair<int, int> Damage => damage;
+        private (int, int) damage;
+        public (int, int) Damage => damage;
         private double initiative;
         public double Initiative => initiative;
 
-        public Unit(uint tipe, string name, int hitPoints, int attack, int defence, Pair<int, int> damage,
+        public Unit(uint tipe, string name, int hitPoints, int attack, int defence, (int, int) damage,
             double initiative)
         {
             this.tipe = tipe;
