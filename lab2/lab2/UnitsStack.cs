@@ -1,12 +1,12 @@
 ﻿namespace lab2
 {
-    class UnitsStack
+    public class UnitsStack
     {
         public Unit UnitType { get; }
 
-        public int Amount { get; set; }
+        public int Amount { get;}
 
-        public bool IsStackAlive => Amount > 0;
+        //public bool IsStackAlive => Amount > 0;
 
 
         public UnitsStack(Unit unitType, int amount)
@@ -17,7 +17,7 @@
 
         public override string ToString()
         {
-            return ($"{this.UnitType.Name}: {this.Amount}\n");
+            return ($"{this.UnitType.Type}: {this.Amount}\n");
         }
 
         public UnitsStack Clone()

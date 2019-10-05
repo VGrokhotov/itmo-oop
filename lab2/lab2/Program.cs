@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using lab2.Units;
 
 namespace lab2
 {
@@ -6,16 +8,12 @@ namespace lab2
     {
         static void Main()
         {
-            Unit lol = new Unit(1, "lol", 30, 5, 1, damage: (3, 3), 1);
-            Unit kek = new Unit(1, "kek", 30, 5, 1, damage: (3, 3), 1);
-            UnitsStack first = new UnitsStack(lol, 3);
-            Console.WriteLine(first.IsStackAlive);
-            Army gg = new Army();
-            gg.AppendStack(first);
-            gg.AppendStack(new UnitsStack(kek, 8));
-            gg.DeleteStack(first);
+            Angel angel1 = new Angel();
+            UnitsStack stack1 = new UnitsStack(angel1, 3);
+
+            Army gg = new Army(new List<UnitsStack>() {stack1, new UnitsStack(angel1, 8)});
             var ex = gg.StacksList;
-            ex.Add(new UnitsStack(kek, 3));
+            ex.Add(new UnitsStack(angel1, 3));
             Console.WriteLine(gg);
         }
     }
