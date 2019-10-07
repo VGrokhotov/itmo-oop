@@ -3,13 +3,13 @@
     public class Unit
     {
         public uint Type { get; }
-        public int HitPoints { get; }
-        public int Attack { get; }
-        public int Defence { get; }
-        public (int, int) Damage { get; }
+        public uint HitPoints { get; }
+        public uint Attack { get; }
+        public uint Defence { get; }
+        public (uint, uint) Damage { get; }
         public double Initiative { get; }
 
-        public Unit(uint type, int hitPoints, int attack, int defence, (int, int) damage,
+        public Unit(uint type, uint hitPoints, uint attack, uint defence, (uint, uint) damage,
             double initiative)
         {
             this.Type = type;

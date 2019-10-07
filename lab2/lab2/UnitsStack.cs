@@ -1,4 +1,6 @@
-﻿namespace lab2
+﻿using System;
+
+namespace lab2
 {
     public class UnitsStack
     {
@@ -6,18 +8,23 @@
 
         public int Amount { get;}
 
-        //public bool IsStackAlive => Amount > 0;
 
 
         public UnitsStack(Unit unitType, int amount)
         {
+            
+            if (amount > Config.MAX_STACK_NUMBER)
+            {
+                throw new ArgumentException("Too much Units in one stack");
+            }
             this.Amount = amount;
             this.UnitType = unitType;
+            
         }
 
         public override string ToString()
         {
-            return ($"{this.UnitType.Type}: {this.Amount}\n");
+            return ($"Type: {this.UnitType.Type}, Amount: {this.Amount}\n");
         }
 
         public UnitsStack Clone()

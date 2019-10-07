@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace lab2
 {
@@ -20,7 +21,13 @@ namespace lab2
 
         public Army(List<UnitsStack> stacksList)
         {
-            this._stacksList = stacksList;
+            if (stacksList.Count > Config.MAX_ARMY_NUMBER)
+            {
+                throw new ArgumentException("To much Stacks");
+            }
+            var newStacksList = new List<UnitsStack>();
+            stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
+            this._stacksList = newStacksList;
         }
         public override string ToString()
         {
@@ -30,6 +37,11 @@ namespace lab2
                 result += stack.ToString();
             }
             return result;
+        }
+
+        public Army Clone()
+        {
+            return new Army(this.StacksList);
         }
     }
 }
