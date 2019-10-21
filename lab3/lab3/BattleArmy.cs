@@ -14,16 +14,30 @@ namespace lab3
         {
             get
             {
-                //var newStacksList = new List<BattleUnitsStack>();
-                //_stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
-                //return newStacksList;
-                return _stacksList;
+                var newStacksList = new List<BattleUnitsStack>();
+                _stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
+                return newStacksList;
             }
         }
 
-        private void AddStack(BattleUnitsStack battleUnitsStack)
+        public int NumberOfAliveStacks
         {
-            if (_stacksList.Count < Config.MAX_ARMY_NUMBER)
+            get
+            {
+                int number = 0;
+                foreach (var stack in this.StacksList)
+                {
+                    if (stack.IsAlive)
+                        number += 1;
+                }
+
+                return number;
+            }
+        } 
+
+        public void AddStack(BattleUnitsStack battleUnitsStack)
+        {
+            if (this.NumberOfAliveStacks < Config.MAX_ARMY_NUMBER)
             
                 _stacksList.Add(battleUnitsStack);
             else 
@@ -32,15 +46,13 @@ namespace lab3
 
         public bool IsArmyAlive()
         {
-            foreach (var stack in StacksList)
-            {
-                if (stack.IsAlive)
-                    return true;
-            }
-            return false;
+            if (this.NumberOfAliveStacks > 0)
+                return true;
+            else
+                return false;
         }
 
-        public BattleArmy(List<BattleUnitsStack> stacksList)
+        public BattleArmy(List<BattleUnitsStack> stacksList, string name)
         {
             if (stacksList.Count > Config.MAX_ARMY_NUMBER)
             {
@@ -49,12 +61,11 @@ namespace lab3
             var newStacksList = new List<BattleUnitsStack>();
             stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
             this._stacksList = newStacksList;
-            Console.WriteLine("Enter Army name");
-            ArmyName = Console.ReadLine();
+            ArmyName = name;
         }
         public override string ToString()
         {
-            string result = "Army:\n";
+            string result = $"Army {ArmyName} :\n";
             foreach (var stack in _stacksList)
             {
                 result += stack.ToString();
@@ -64,7 +75,7 @@ namespace lab3
 
         public BattleArmy Clone()
         {
-            return new BattleArmy(this.StacksList);
+            return new BattleArmy(this.StacksList, this.ArmyName);
         }
     }
 }

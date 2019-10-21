@@ -5,26 +5,33 @@ namespace lab3
 {
     class Battle
     {
-        public BattleArmy FirstBattleArmy;
-        public BattleArmy SecondBattleArmy;
+        private BattleArmy FirstBattleArmy;
+        private BattleArmy SecondBattleArmy;
         public bool HasBattleEnded => !FirstBattleArmy.IsArmyAlive() || !SecondBattleArmy.IsArmyAlive();
 
-        public string WhoWin()
-        {
-            if (HasBattleEnded)
+        public BattleArmy WhoWin()
+        { 
+            if (FirstBattleArmy.IsArmyAlive())
             {
-                if (FirstBattleArmy.IsArmyAlive())
-                {
-                    return $"{FirstBattleArmy.ArmyName} wins";
-                }
-                else
-                {
-                    return $"{SecondBattleArmy.ArmyName} wins";
-                }
+                return FirstBattleArmy;
             }
             else
             {
-                return "Battle is not ended";
+                return SecondBattleArmy;
+            }
+        }
+
+        public Battle(BattleArmy firstBattleArmy, BattleArmy secondBattleArmy)
+        {
+            this.FirstBattleArmy = firstBattleArmy;
+            this.SecondBattleArmy = secondBattleArmy;
+        }
+
+        public void StartBattle()
+        {
+            while (!HasBattleEnded)
+            {
+                ///
             }
         }
     }
