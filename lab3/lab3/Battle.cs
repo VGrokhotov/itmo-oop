@@ -23,8 +23,8 @@ namespace lab3
 
         public Battle(BattleArmy firstBattleArmy, BattleArmy secondBattleArmy)
         {
-            this.FirstBattleArmy = firstBattleArmy;
-            this.SecondBattleArmy = secondBattleArmy;
+            this.FirstBattleArmy = firstBattleArmy.Clone();
+            this.SecondBattleArmy = secondBattleArmy.Clone();
         }
 
         public void StartBattle()

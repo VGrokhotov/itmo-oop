@@ -18,7 +18,7 @@ namespace lab3
         public List<Effects> Effects;
         public BattleUnitsStack(UnitsStack unitsStack)
         {
-            this.UnitType = unitsStack.UnitType;
+            this.UnitType = unitsStack.UnitType.Clone();
             this.StartAmount = unitsStack.Amount;
             this.Hp = unitsStack.Amount * (int) (unitsStack.UnitType.HitPoints);
         }
