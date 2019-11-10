@@ -1,0 +1,14 @@
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab3.exe
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab3.deps.json
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab3.runtimeconfig.json
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab3.runtimeconfig.dev.json
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab3.dll
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab3.pdb
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab2.dll
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\bin\Debug\netcoreapp3.0\lab2.pdb
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\obj\Debug\netcoreapp3.0\lab3.csprojAssemblyReference.cache
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\obj\Debug\netcoreapp3.0\lab3.AssemblyInfoInputs.cache
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\obj\Debug\netcoreapp3.0\lab3.AssemblyInfo.cs
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\obj\Debug\netcoreapp3.0\lab3.csproj.CopyComplete
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\obj\Debug\netcoreapp3.0\lab3.dll
+C:\Users\Lenonvo\Documents\itmo-oop\lab3\lab3\obj\Debug\netcoreapp3.0\lab3.pdb

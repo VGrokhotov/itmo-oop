@@ -28,5 +28,9 @@ namespace lab3
             return new BattleUnitsStack(new UnitsStack(this.UnitType.Clone(), this.Amount));
         }
 
+        public override string ToString()
+        {
+            return ($"Type: {this.UnitType.Type}, Amount: {this.Amount}\n");
+        }
     }
 }

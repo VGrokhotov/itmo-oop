@@ -2,6 +2,9 @@
 {
     public enum Effects
     {
-        ///
+        DecreasedInitiative,
+        IsFoul,
+
+
     }
 }
