@@ -4,6 +4,6 @@ namespace game.Units
 {
     public class Fury : Unit
     {
-        public Fury() : base(10, 16, 5, 3, damage: (5,7), 16) { }
+        public Fury() : base("Fury", 16, 5, 3, damage: (5,7), 16) { }
     }
 }

@@ -4,6 +4,6 @@ namespace game.Units
 {
     public class Arbalester : Unit
     {
-        public Arbalester() : base(8, 10, 4, 4, (2, 8), 8) { }
+        public Arbalester() : base("Arbalester", 10, 4, 4, (2, 8), 8) { }
     }
 }

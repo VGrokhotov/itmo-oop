@@ -29,6 +29,9 @@ namespace lab3
             BattleArmy sbusArmy = new BattleArmy(battleUnitsStacks, "second");
             Battle game = new Battle(fbusArmy, sbusArmy);
 
+            (int, int) lol = (3, 3);
+            lol.Item1 -= 1;
+            Console.WriteLine(lol);
         }
     }
 }

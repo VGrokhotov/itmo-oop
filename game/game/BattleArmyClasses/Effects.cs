@@ -1,10 +1,51 @@
-﻿namespace game.BattleArmyClasses
-{
-    public enum Effects
-    {
-        DecreasedInitiative,
-        IsFoul,
+﻿using System.Collections.Generic;
 
+
+namespace game.BattleArmyClasses
+{
+    public class Effects {
+        public List<(TypeOfEffect, int)> AllEffects;
+
+        public Effects()
+        {
+            AllEffects = new List<(TypeOfEffect, int)>();
+        }
+
+        public void Add((TypeOfEffect, int) effect)
+        {
+            AllEffects.Add(effect);
+        }
+
+        public void DecreaseTurns()
+        {
+            List < (TypeOfEffect, int) > temp = new List<(TypeOfEffect, int)>();
+            foreach (var effect in AllEffects)
+            {
+                temp.Add((effect.Item1, effect.Item2 - 1));
+            }
+            AllEffects.Clear();
+            AllEffects = temp;
+        }
+
+        public void Check()
+        {
+            List<(TypeOfEffect, int)> temp = new List<(TypeOfEffect, int)>();
+            foreach (var effect in AllEffects)
+            {
+                if (effect.Item2 > 1)
+                    temp.Add((effect.Item1, effect.Item2 - 1));
+            }
+            AllEffects.Clear();
+            AllEffects = temp;
+        }
 
     }
+    public enum TypeOfEffect
+        {
+            DecreasedInitiative,
+            IncreasedInitiative,
+            IncreasedAttack,
+            DecreasedAttack,
+            DecreasedDefence,
+        }
 }

@@ -36,7 +36,7 @@ namespace game.BattleArmyClasses
 
         public void AddStack(BattleUnitsStack battleUnitsStack)
         {
-            if (this.NumberOfAliveStacks < Config.MAX_ARMY_NUMBER)
+            if (this.NumberOfAliveStacks < Config.MAX_BATTLE_ARMY_NUMBER)
             
                 _stacksList.Add(battleUnitsStack);
             else 

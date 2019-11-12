@@ -24,7 +24,7 @@ namespace game.MarchingArmy
 
         public override string ToString()
         {
-            return ($"Type: {this.UnitType.Type}, Amount: {this.Amount}\n");
+            return ($"Name: {this.UnitType.Name}, Amount: {this.Amount}\n");
         }
 
         public UnitsStack Clone()

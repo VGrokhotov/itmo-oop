@@ -31,7 +31,7 @@ namespace game
             BattleArmy sbusArmy = new BattleArmy(battleUnitsStacks, "second");
             Battle game = new Battle(fbusArmy, sbusArmy);
 
-
+            game.StartBattle();
         }
     }
 }
