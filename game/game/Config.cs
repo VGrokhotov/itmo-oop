@@ -8,5 +8,6 @@
         public const uint DECREASED_ATTACK = 12;
         public const uint INCREASED_ATTACK = 12;
         public const uint DECREASED_DEFENCE = 12;
+        public const double IS_DEFEND = 1.3;
     }
 }

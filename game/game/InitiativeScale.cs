@@ -19,28 +19,21 @@ namespace game
         {
             Scale.Clear();
             WaitScale.Clear();
-            List<(BattleUnitsStack, int)> tempBUS = new List<(BattleUnitsStack, int)>();
             foreach (var stack in FirstBattleArmy.StacksList)
             {
                 if (stack.IsAlive)
-                    tempBUS.Add((stack, 1));
+                    Scale.Add((stack, 1));
             }
             foreach (var stack in SecondBattleArmy.StacksList)
             {
                 if (stack.IsAlive)
-                    tempBUS.Add((stack, 2));
+                    Scale.Add((stack, 2));
             }
-            //ComparerOfInitiative comparerOfInitiative = new ComparerOfInitiative();
-            //tempBUS.Sort(comparerOfInitiative);
-            var sorted = from stackAndArmy in tempBUS
-                orderby stackAndArmy.Item1.UnitType.Initiative descending
-                select stackAndArmy;
-            foreach (var stack in sorted)
-            {
-                Scale.Add(stack);
-            }
+            ComparerOfInitiative comparerOfInitiative = new ComparerOfInitiative();
+            Scale.Sort(comparerOfInitiative);
         }
 
+        //переделать или удолить
         public void CheckInitiativeScale()
         {
             if (Scale.Count != 0)
@@ -62,6 +55,23 @@ namespace game
                             break;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            string result = "Initiative Scale:\n";
+            foreach (var stack in Scale)
+            {
+                result += $"Army: {stack.Item2}, {stack.Item1}";
+            }
+            result += "Initiative Wait Scale:\n";
+            foreach (var stack in WaitScale)
+            {
+                result += $"Army: {stack.Item2}, {stack.Item1}";
+            }
+
+            return result;
+
         }
     }
 }

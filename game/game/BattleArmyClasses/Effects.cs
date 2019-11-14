@@ -42,5 +42,6 @@ namespace game.BattleArmyClasses
             IncreasedAttack,
             DecreasedAttack,
             DecreasedDefence,
-        }
+            IsDefends
+    }
 }

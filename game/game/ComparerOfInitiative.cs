@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace game
 {
-    class ComparerOfInitiative : IComparer<(BattleUnitsStack, int)>
+    public class ComparerOfInitiative : IComparer<(BattleUnitsStack, int)>
     {
         public int Compare((BattleUnitsStack, int) o1, (BattleUnitsStack, int) o2)
         {
