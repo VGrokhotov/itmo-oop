@@ -14,7 +14,7 @@ namespace game
         private BattleArmy Winner;
         public bool HasBattleEnded => !FirstBattleArmy.IsArmyAlive() || !SecondBattleArmy.IsArmyAlive() || Winner != null;
 
-        private void Attack(BattleUnitsStack attacking, BattleUnitsStack attacked)
+        private void Attack( BattleUnitsStack attacking, BattleUnitsStack attacked)
         {
             int Damage(BattleUnitsStack attackingBUS, BattleUnitsStack attackedBUS)
             {
@@ -143,7 +143,7 @@ namespace game
                                     Console.WriteLine("Incorrect input, try again");
                                 else
                                 {
-                                    if (i < 0 || i > attackedArmy.StacksList.Count - 1 )
+                                    if (i < 0 || i > attackedArmy.StacksList.Count - 1)
                                         Console.WriteLine("Incorrect input, try again");
                                     else
                                     {
@@ -152,7 +152,7 @@ namespace game
                                     }
                                 }
                             }
-
+                            //добавить удаление из шкалы если сдох
                             break;
                         case "2":
                             Scale.Scale.RemoveAt(0);

@@ -33,7 +33,7 @@ namespace game
             Scale.Sort(comparerOfInitiative);
         }
 
-        //переделать или удолить
+        //переделать или удолить - надо чистить шкалу при драке поцанов
         public void CheckInitiativeScale()
         {
             if (Scale.Count != 0)

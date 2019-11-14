@@ -9,15 +9,7 @@ namespace game.BattleArmyClasses
 
         public string ArmyName{ get; }
 
-        public List<BattleUnitsStack> StacksList
-        {
-            get
-            {
-                var newStacksList = new List<BattleUnitsStack>();
-                _stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
-                return newStacksList;
-            }
-        }
+        public List<BattleUnitsStack> StacksList => _stacksList;
 
         public int NumberOfAliveStacks
         {
@@ -74,7 +66,9 @@ namespace game.BattleArmyClasses
 
         public BattleArmy Clone()
         {
-            return new BattleArmy(this.StacksList, this.ArmyName);
+            var newStacksList = new List<BattleUnitsStack>();
+            _stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
+            return new BattleArmy(newStacksList, this.ArmyName);
         }
     }
 }
