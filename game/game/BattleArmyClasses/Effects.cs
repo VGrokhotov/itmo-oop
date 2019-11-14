@@ -18,18 +18,7 @@ namespace game.BattleArmyClasses
 
         public void DecreaseTurns()
         {
-            List < (TypeOfEffect, int) > temp = new List<(TypeOfEffect, int)>();
-            foreach (var effect in AllEffects)
-            {
-                temp.Add((effect.Item1, effect.Item2 - 1));
-            }
-            AllEffects.Clear();
-            AllEffects = temp;
-        }
-
-        public void Check()
-        {
-            List<(TypeOfEffect, int)> temp = new List<(TypeOfEffect, int)>();
+            List <(TypeOfEffect, int)> temp = new List<(TypeOfEffect, int)>();
             foreach (var effect in AllEffects)
             {
                 if (effect.Item2 > 1)
@@ -37,6 +26,12 @@ namespace game.BattleArmyClasses
             }
             AllEffects.Clear();
             AllEffects = temp;
+        }
+
+        public void Clear()
+        {
+            if (this.AllEffects.Count != 0)
+                this.AllEffects.Clear();
         }
 
     }

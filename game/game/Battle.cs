@@ -14,38 +14,53 @@ namespace game
 
         private void Attack(BattleUnitsStack attacking, BattleUnitsStack attacked)
         {
-            uint IncreasedAttack = 0;
-            uint DecreasedAttack = 0;
-            uint DecreasedDefence = 0;
-            foreach (var effect in attacking.Effects.AllEffects)
+            int Damage(BattleUnitsStack attackingBUS, BattleUnitsStack attackedBUS)
             {
-                if (effect.Item1 == TypeOfEffect.DecreasedAttack)
-                    DecreasedAttack = Config.DECREASED_ATTACK;
-                if (effect.Item1 == TypeOfEffect.IncreasedAttack)
-                    DecreasedAttack = Config.INCREASED_ATTACK;
-            }
-            foreach (var effect in attacked.Effects.AllEffects)
-            {
-                if (effect.Item1 == TypeOfEffect.DecreasedDefence)
-                    DecreasedDefence = Config.DECREASED_DEFENCE;
+                int IncreasedAttack = 0;
+                int DecreasedAttack = 0;
+                int DecreasedDefence = 0;
+                foreach (var effect in attackingBUS.Effects.AllEffects)
+                {
+                    if (effect.Item1 == TypeOfEffect.DecreasedAttack)
+                        DecreasedAttack = (int)Config.DECREASED_ATTACK;
+                    if (effect.Item1 == TypeOfEffect.IncreasedAttack)
+                        DecreasedAttack = (int)Config.INCREASED_ATTACK;
+                }
+                foreach (var effect in attackedBUS.Effects.AllEffects)
+                {
+                    if (effect.Item1 == TypeOfEffect.DecreasedDefence)
+                        DecreasedDefence = (int)Config.DECREASED_DEFENCE;
+                }
+                double damage1;
+                double damage2;
+                int attack = (int)attackingBUS.UnitType.Attack - DecreasedAttack + IncreasedAttack;
+                int defence = (int)attackedBUS.UnitType.Defence - DecreasedDefence;
+                if (attack > defence)
+                {
+                    damage1 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item1 * (1 + 0.05 * (attack - defence));
+                    damage2 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item2 * (1 + 0.05 * (attack - defence));
+                }
+                else
+                {
+                    damage1 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item1 / (1 + 0.05 * (defence - attack));
+                    damage2 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item2 / (1 + 0.05 * (defence - attack));
+                }
+                Random rnd = new Random();
+                return  rnd.Next((int)Math.Ceiling(damage1), (int)Math.Floor(damage2));
             }
 
-            double damage1;
-            double damage2;
+            attacked.Hp -= Damage(attacking, attacked);
+            if (!attacked.HasRespondThisTurn)
+            {
+                attacked.HasRespondThisTurn = true;
+                attacking.Hp -= Damage(attacked, attacking);
+            }
+        }
 
-            if (attacking.UnitType.Attack > attacked.UnitType.Defence)
-            {
-                damage1 = attacking.Amount * attacking.UnitType.Damage.Item1 * ( 1 + 0.05 * (int)(attacking.UnitType.Attack - attacked.UnitType.Defence));
-                damage2 = attacking.Amount * attacking.UnitType.Damage.Item2 * (1 + 0.05 * (int)(attacking.UnitType.Attack - attacked.UnitType.Defence));
-            }
-            else
-            {
-                damage1 = attacking.Amount * attacking.UnitType.Damage.Item1 / (1 + 0.05 * (int)(attacked.UnitType.Defence - attacking.UnitType.Attack ));
-                damage2 = attacking.Amount * attacking.UnitType.Damage.Item2 / (1 + 0.05 * (int)(attacked.UnitType.Defence - attacking.UnitType.Attack));
-            }
-            Random rnd = new Random();
-            int damage = rnd.Next((int)Math.Ceiling(damage1), (int)Math.Floor(damage2));
-            attacked.Hp -= damage;
+        private void Wait((BattleUnitsStack, int) stackInScale)
+        {
+            Scale.WaitScale.Add(stackInScale);
+            Scale.WaitScale.Sort();
         }
 
         private BattleArmy WhoWin()
@@ -83,20 +98,14 @@ namespace game
 
                 foreach (var stack in FirstBattleArmy.StacksList)
                 {
-                    if (stack.IsAlive)
-                    {
-                        stack.Effects.DecreaseTurns();
-                        stack.Effects.Check();
-                    }
+                    stack.CheckEffectsAtEndOfTern();
+                    stack.HasRespondThisTurn = false;
                 }
                 foreach (var stack in SecondBattleArmy.StacksList)
                 {
-                    if (stack.IsAlive)
-                    {
-                        stack.Effects.DecreaseTurns();
-                        stack.Effects.Check();
-                    }
-                }
+                    stack.CheckEffectsAtEndOfTern();
+                    stack.HasRespondThisTurn = false;
+            }
             //}
         }
     }

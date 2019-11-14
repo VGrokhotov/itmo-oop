@@ -13,9 +13,23 @@ namespace game.BattleArmyClasses
 
         public int Hp { get; set; }
 
+        public bool HasRespondThisTurn = false;
+
         public bool IsAlive => this.Hp > 0;
 
         public Effects Effects;
+
+        public void CheckEffectsAtEndOfTern()
+        {
+            if (this.IsAlive)
+            {
+                Effects.DecreaseTurns();
+            }
+            else
+            {
+                Effects.Clear();
+            }
+        }
         public BattleUnitsStack(UnitsStack unitsStack)
         {
             this.UnitType = unitsStack.UnitType.Clone();
