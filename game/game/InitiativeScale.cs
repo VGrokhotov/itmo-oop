@@ -33,26 +33,30 @@ namespace game
             Scale.Sort(comparerOfInitiative);
         }
 
-        //переделать или удолить - надо чистить шкалу при драке поцанов
-        public void CheckInitiativeScale()
+        public void CheckAttackedStack(BattleUnitsStack attackedStack)
         {
-            if (Scale.Count != 0)
+            bool isInScale = false;
+            for (int j = 0; j < Scale.Count; j++)
             {
-                while (Scale.Count > 0)
-                    if (!Scale[0].Item1.IsAlive)
-                        Scale.RemoveAt(0);
-                    else
-                        break;
-            }
-            if (Scale.Count == 0)
-            {
-                if (WaitScale.Count > 0)
+                if (Scale[j].Item1 == attackedStack)
                 {
-                    while (WaitScale.Count > 0)
-                        if (!WaitScale[0].Item1.IsAlive)
-                            WaitScale.RemoveAt(0);
-                        else
-                            break;
+                    isInScale = true;
+                    if (!Scale[j].Item1.IsAlive)
+                        Scale.RemoveAt(j);
+                    break;
+                }
+            }
+
+            if (!isInScale)
+            {
+                for (int j = 0; j < WaitScale.Count; j++)
+                {
+                    if (WaitScale[j].Item1 == attackedStack)
+                    {
+                        if (!WaitScale[j].Item1.IsAlive)
+                            WaitScale.RemoveAt(j);
+                        break;
+                    }
                 }
             }
         }

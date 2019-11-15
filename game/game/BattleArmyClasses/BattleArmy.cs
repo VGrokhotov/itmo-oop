@@ -54,6 +54,58 @@ namespace game.BattleArmyClasses
             this._stacksList = newStacksList;
             ArmyName = name;
         }
+
+        public string AliveStacks()
+        {
+            string result = $"Army {ArmyName} :\n";
+            foreach (var stack in StacksList)
+            {
+                if (stack.IsAlive)
+                    result += stack.ToString();
+            }
+            return result;
+        }
+
+        public int AmountOfAliveStacks()
+        {
+            int result = 0;
+            foreach (var stack in StacksList)
+            {
+                if (stack.IsAlive)
+                    result++;
+            }
+            return result;
+        }
+        public BattleUnitsStack AliveStackAt(int index)
+        {
+            int i = -1;
+            for (int j = 0; j < StacksList.Count; j++)
+            {
+                if (StacksList[j].IsAlive)
+                    i++;
+                if (i == index)
+                    return StacksList[j];
+            }
+
+            return null;
+        }
+
+        public string GetLosses()
+        {
+            string result = "";
+
+            foreach (var stack in StacksList)
+            {
+                int amount = stack.StartAmount;
+                if (stack.IsAlive)
+                {
+                    amount -= stack.Amount;
+                }
+                result += $"{stack.UnitType.Name}: {amount}\n";
+            }
+
+            return result;
+        }
         public override string ToString()
         {
             string result = $"Army {ArmyName} :\n";

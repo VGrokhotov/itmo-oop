@@ -12,57 +12,9 @@ namespace game
         private BattleArmy SecondBattleArmy;
         private InitiativeScale Scale;
         private BattleArmy Winner;
+        private Attacker Attacker;
         public bool HasBattleEnded => !FirstBattleArmy.IsArmyAlive() || !SecondBattleArmy.IsArmyAlive() || Winner != null;
 
-        private void Attack( BattleUnitsStack attacking, BattleUnitsStack attacked)
-        {
-            int Damage(BattleUnitsStack attackingBUS, BattleUnitsStack attackedBUS)
-            {
-                int IncreasedAttack = 0;
-                int DecreasedAttack = 0;
-                int DecreasedDefence = 0;
-                double IsDefend = 1;
-                foreach (var effect in attackingBUS.Effects.AllEffects)
-                {
-                    if (effect.Item1 == TypeOfEffect.DecreasedAttack)
-                        DecreasedAttack = (int)Config.DECREASED_ATTACK;
-                    if (effect.Item1 == TypeOfEffect.IncreasedAttack)
-                        DecreasedAttack = (int)Config.INCREASED_ATTACK;
-                }
-                foreach (var effect in attackedBUS.Effects.AllEffects)
-                {
-                    if (effect.Item1 == TypeOfEffect.DecreasedDefence)
-                        DecreasedDefence = (int)Config.DECREASED_DEFENCE;
-                    if (effect.Item1 == TypeOfEffect.IsDefends)
-                        IsDefend = Config.IS_DEFEND;
-                }
-                double damage1;
-                double damage2;
-                double attack = (int)attackingBUS.UnitType.Attack - DecreasedAttack + IncreasedAttack;
-                double defence = ((int)attackedBUS.UnitType.Defence - DecreasedDefence) * IsDefend;
-                if (attack > defence)
-                {
-                    damage1 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item1 * (1 + 0.05 * (attack - defence));
-                    damage2 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item2 * (1 + 0.05 * (attack - defence));
-                }
-                else
-                {
-                    damage1 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item1 / (1 + 0.05 * (defence - attack));
-                    damage2 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item2 / (1 + 0.05 * (defence - attack));
-                }
-                if (attackingBUS.UnitType.Damage.Item1 == attackingBUS.UnitType.Damage.Item2)
-                    return (int) Math.Floor(damage2);
-                Random rnd = new Random();
-                return  rnd.Next((int)Math.Ceiling(damage1), (int)Math.Floor(damage2));
-            }
-
-            attacked.Hp -= Damage(attacking, attacked);
-            if (!attacked.HasRespondThisTurn && attacked.IsAlive)
-            {
-                attacked.HasRespondThisTurn = true;
-                attacking.Hp -= Damage(attacked, attacking);
-            }
-        }
 
         private void Wait((BattleUnitsStack, int) stackInScale)
         {
@@ -100,6 +52,7 @@ namespace game
             this.FirstBattleArmy = firstBattleArmy.Clone();
             this.SecondBattleArmy = secondBattleArmy.Clone();
             Scale = new InitiativeScale();
+            Attacker = new Attacker();
         }
 
         public void StartBattle()
@@ -120,39 +73,20 @@ namespace game
                     else
                         name = SecondBattleArmy.ArmyName;
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
-                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Don't choose it\n[4] Wait\n[5] Give up\n");
+                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz(Don't choose it)\n[4] Wait(Don't choose it)\n[5] Give up\n");
                     string action = Console.ReadLine();
                     switch (action)
                     {
                         case "1":
                             Scale.Scale.RemoveAt(0);
-                            Console.WriteLine("You chose \"Attack\"");
-                            Console.WriteLine("You can now attack following stacks from ");
                             BattleArmy attackedArmy;
                             if (currentBattleStack.Item2 == 1)
                                 attackedArmy = SecondBattleArmy;
                             else
                                 attackedArmy = FirstBattleArmy;
-                            Console.WriteLine(attackedArmy);
-                            Console.WriteLine("Enter the index of stack you wanna attack (from 0)");
-                            string numberOfStack;
-                            while (true)
-                            {
-                                numberOfStack = Console.ReadLine();
-                                if (!int.TryParse(numberOfStack, out int i))
-                                    Console.WriteLine("Incorrect input, try again");
-                                else
-                                {
-                                    if (i < 0 || i > attackedArmy.StacksList.Count - 1)
-                                        Console.WriteLine("Incorrect input, try again");
-                                    else
-                                    {
-                                        Attack(currentBattleStack.Item1, attackedArmy.StacksList[i]);
-                                        break;
-                                    }
-                                }
-                            }
-                            //добавить удаление из шкалы если сдох
+                            BattleUnitsStack attackedStack = Attacker.attack(currentBattleStack, attackedArmy);
+                            Scale.CheckAttackedStack(attackedStack);
+                            
                             break;
                         case "2":
                             Scale.Scale.RemoveAt(0);
@@ -187,7 +121,7 @@ namespace game
                     break;
 
 
-                foreach (var stack in Scale.WaitScale)
+                while (Scale.WaitScale.Count > 0)
                 {
 
 
@@ -212,6 +146,12 @@ namespace game
                     stack.HasRespondThisTurn = false;
                 }
             }
+            WhoWin();
+            Console.WriteLine($"Winner of the battle: {Winner.ArmyName}");
+            Console.WriteLine("Losses:");
+            Console.WriteLine($"Army {FirstBattleArmy.ArmyName}:\n{FirstBattleArmy.GetLosses()}\n");
+            Console.WriteLine($"Army {SecondBattleArmy.ArmyName}:\n{SecondBattleArmy.GetLosses()}\n");
+
         }
     }
 }
