@@ -20,6 +20,7 @@ namespace game.BattleArmyClasses
 
         public Effects Effects;
 
+
         public void CheckEffectsAtEndOfTern()
         {
             if (IsAlive)
@@ -31,19 +32,47 @@ namespace game.BattleArmyClasses
                 Effects.Clear();
             }
         }
+
+        public List<(TypeOfMagic, bool)> Magic;
+
+        public int AvailableMagic()
+        {
+            int answer = 0;
+            foreach (var magic in Magic)
+            {
+                if (magic.Item2)
+                    answer++;
+            }
+
+            return answer;
+        }
+
+        public TypeOfMagic AvailableMagicAt(int index)
+        {
+            int i = -1;
+            foreach (var magic in Magic)
+            {
+                if (magic.Item2)
+                    i++;
+                if (i == index)
+                    return magic.Item1;
+            }
+
+            return TypeOfMagic.PunishingStrike;//надо чето придумать, тут не должно ничего быть
+        }
         public BattleUnitsStack(UnitsStack unitsStack)
         {
             UnitType = unitsStack.UnitType.Clone();
             StartAmount = unitsStack.Amount;
             Hp = unitsStack.Amount * (int) (unitsStack.UnitType.HitPoints);
             Effects = new Effects();
+            Magic = new List<(TypeOfMagic, bool)>();
+            foreach (var magic in unitsStack.UnitType.AccessibleMagic)
+            {
+                Magic.Add((magic, true));
+            }
         }
-
-        public BattleUnitsStack Clone()
-        {
-            return new BattleUnitsStack(new UnitsStack(UnitType.Clone(), Amount));
-        }
-
+        
         public override string ToString()
         {
             return ($"Name: {UnitType.Name}, Amount: {Amount}\n");

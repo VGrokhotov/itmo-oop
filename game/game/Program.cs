@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using game.BattleArmyClasses;
 using game.MarchingArmy;
 using game.Units;
@@ -21,15 +20,9 @@ namespace game
             UnitsStack stack3 = new UnitsStack(arbalester, 3);
             UnitsStack stack4 = new UnitsStack(lich, 3);
             List<UnitsStack> unitsStacks = new List<UnitsStack>() { stack1, stack2, stack3, stack4 };
-            Army usArmy = new Army(unitsStacks);
-            List<BattleUnitsStack> battleUnitsStacks = new List<BattleUnitsStack>();
-            foreach (var stack in usArmy.StacksList)
-            {
-                battleUnitsStacks.Add(new BattleUnitsStack(stack));
-            }
-            BattleArmy fbusArmy = new BattleArmy(battleUnitsStacks, "first");
-            BattleArmy sbusArmy = new BattleArmy(battleUnitsStacks, "second");
-            Battle game = new Battle(fbusArmy, sbusArmy);
+            Army usArmy1 = new Army(unitsStacks);
+            Army usArmy2 = new Army(unitsStacks);
+            Battle game = new Battle(usArmy1, "first", usArmy2, "second");
 
             game.StartBattle();
         }

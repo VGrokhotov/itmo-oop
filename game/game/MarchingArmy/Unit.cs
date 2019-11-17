@@ -1,4 +1,6 @@
-﻿namespace game.MarchingArmy
+﻿using System.Collections.Generic;
+
+namespace game.MarchingArmy
 {
     public class Unit
     {
@@ -9,6 +11,18 @@
         public (uint, uint) Damage { get; }
         public double Initiative { get; }
 
+        protected List<TypeOfMagic> accessibleMagic;
+
+        public List<TypeOfMagic> AccessibleMagic
+        {
+            get
+            {
+                var newMagicList = new List<TypeOfMagic>();
+                accessibleMagic.ForEach((magic) => newMagicList.Add(magic));
+                return newMagicList;
+            }
+        }
+
         public Unit(string name, uint hitPoints, uint attack, uint defence, (uint, uint) damage,
             double initiative)
         {
@@ -18,11 +32,17 @@
             this.Defence = defence;
             this.Damage = damage;
             this.Initiative = initiative;
+            accessibleMagic = new List<TypeOfMagic>();
         }
 
         public Unit Clone()
         {
-            return new Unit(this.Name,  this.HitPoints, this.Attack, this.Defence, this.Damage, this.Initiative);
+            Unit currentUnit = new Unit(this.Name, this.HitPoints, this.Attack, this.Defence, this.Damage, this.Initiative);
+            foreach (var magic in AccessibleMagic)
+            {
+                currentUnit.accessibleMagic.Add(magic);
+            }
+            return currentUnit;
         }
     }
 }

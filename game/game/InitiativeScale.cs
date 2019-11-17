@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using game.BattleArmyClasses;
 
 namespace game
@@ -15,16 +13,16 @@ namespace game
             Scale = new List<(BattleUnitsStack, int)>();
             WaitScale = new List<(BattleUnitsStack, int)>();
         }
-        public void MakeInitiativeScale(BattleArmy FirstBattleArmy, BattleArmy SecondBattleArmy)
+        public void MakeInitiativeScale(BattleArmy firstBattleArmy, BattleArmy secondBattleArmy)
         {
             Scale.Clear();
             WaitScale.Clear();
-            foreach (var stack in FirstBattleArmy.StacksList)
+            foreach (var stack in firstBattleArmy.StacksList)
             {
                 if (stack.IsAlive)
                     Scale.Add((stack, 1));
             }
-            foreach (var stack in SecondBattleArmy.StacksList)
+            foreach (var stack in secondBattleArmy.StacksList)
             {
                 if (stack.IsAlive)
                     Scale.Add((stack, 2));

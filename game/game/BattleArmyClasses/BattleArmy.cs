@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using game.MarchingArmy;
 
 namespace game.BattleArmyClasses
 {
@@ -43,14 +44,14 @@ namespace game.BattleArmyClasses
                 return false;
         }
 
-        public BattleArmy(List<BattleUnitsStack> stacksList, string name)
+        public BattleArmy(Army army, string name)
         {
-            if (stacksList.Count > Config.MAX_ARMY_NUMBER)
+            if (army.StacksList.Count > Config.MAX_ARMY_NUMBER)
             {
                 throw new ArgumentException("To much Stacks");
             }
             var newStacksList = new List<BattleUnitsStack>();
-            stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
+            army.StacksList.ForEach((stack) => newStacksList.Add(new BattleUnitsStack(stack)));
             this._stacksList = newStacksList;
             ArmyName = name;
         }
@@ -79,12 +80,12 @@ namespace game.BattleArmyClasses
         public BattleUnitsStack AliveStackAt(int index)
         {
             int i = -1;
-            for (int j = 0; j < StacksList.Count; j++)
+            foreach (var stack in StacksList)
             {
-                if (StacksList[j].IsAlive)
+                if (stack.IsAlive)
                     i++;
                 if (i == index)
-                    return StacksList[j];
+                    return stack;
             }
 
             return null;
@@ -116,11 +117,5 @@ namespace game.BattleArmyClasses
             return result;
         }
 
-        public BattleArmy Clone()
-        {
-            var newStacksList = new List<BattleUnitsStack>();
-            _stacksList.ForEach((stack) => newStacksList.Add(stack.Clone()));
-            return new BattleArmy(newStacksList, this.ArmyName);
-        }
     }
 }

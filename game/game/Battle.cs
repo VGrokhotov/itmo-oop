@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using game.BattleArmyClasses;
+using game.MarchingArmy;
 
 namespace game
 {
@@ -13,7 +11,9 @@ namespace game
         private InitiativeScale Scale;
         private BattleArmy Winner;
         private Attacker Attacker;
-        public bool HasBattleEnded => !FirstBattleArmy.IsArmyAlive() || !SecondBattleArmy.IsArmyAlive() || Winner != null;
+        private Wizard Wizard;
+        private string reason;
+        private bool HasBattleEnded => !FirstBattleArmy.IsArmyAlive() || !SecondBattleArmy.IsArmyAlive() || Winner != null;
 
 
         private void Wait((BattleUnitsStack, int) stackInScale)
@@ -30,29 +30,33 @@ namespace game
 
         private void GiveUp((BattleUnitsStack, int) stackInScale)
         {
-            if (stackInScale.Item2 == 2)
-                Winner = FirstBattleArmy;
-            else
-                Winner = SecondBattleArmy;
+            Winner = stackInScale.Item2 == 2 ? FirstBattleArmy : SecondBattleArmy;
         }
 
         private void WhoWin()
         {
             if (Winner == null)
             {
-                if (FirstBattleArmy.IsArmyAlive())
-                    Winner = FirstBattleArmy;
-                else
-                    Winner = SecondBattleArmy;
+                Winner = FirstBattleArmy.IsArmyAlive() ? FirstBattleArmy : SecondBattleArmy;
+                string name = FirstBattleArmy.IsArmyAlive() ? SecondBattleArmy.ArmyName : FirstBattleArmy.ArmyName;
+                reason = $"There is no alive stacks in army {name}";
+            }
+            else
+            {
+                string name = Winner.ArmyName == FirstBattleArmy.ArmyName ? SecondBattleArmy.ArmyName : FirstBattleArmy.ArmyName;
+                reason = $"Army {name} has given up";
             }
         }
 
-        public Battle(BattleArmy firstBattleArmy, BattleArmy secondBattleArmy)
+
+
+        public Battle(Army firstArmy, string firstArmyName,  Army secondArmy, string secondArmyName)
         {
-            this.FirstBattleArmy = firstBattleArmy.Clone();
-            this.SecondBattleArmy = secondBattleArmy.Clone();
+            this.FirstBattleArmy = new BattleArmy(firstArmy, firstArmyName);
+            this.SecondBattleArmy = new BattleArmy(secondArmy, secondArmyName);
             Scale = new InitiativeScale();
             Attacker = new Attacker();
+            Wizard = new Wizard();
         }
 
         public void StartBattle()
@@ -67,50 +71,102 @@ namespace game
                     
                     (BattleUnitsStack, int) currentBattleStack = Scale.Scale[0];
                     Console.WriteLine(Scale);
-                    string name;
-                    if (currentBattleStack.Item2 == 1)
-                        name = FirstBattleArmy.ArmyName;
-                    else
-                        name = SecondBattleArmy.ArmyName;
+                    string name = currentBattleStack.Item2 == 1 ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
-                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz(Don't choose it)\n[4] Wait\n[5] Give up\n");
+                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Wait\n[5] Give up\n");
                     string action = Console.ReadLine();
-                    switch (action)
+                    bool HasActionChosen = false;
+                    while (!HasActionChosen)
                     {
-                        case "1":
-                            Scale.Scale.RemoveAt(0);
-                            BattleArmy attackedArmy;
-                            if (currentBattleStack.Item2 == 1)
-                                attackedArmy = SecondBattleArmy;
-                            else
-                                attackedArmy = FirstBattleArmy;
-                            BattleUnitsStack attackedStack = Attacker.attack(currentBattleStack, attackedArmy);
-                            Scale.CheckAttackedStack(attackedStack);
-                            
-                            break;
-                        case "2":
-                            Scale.Scale.RemoveAt(0);
-                            Console.WriteLine("You chose \"Defend\"");
-                            Defend(currentBattleStack.Item1);
-                            break;
-                        case "3":
-                            //Scale.Scale.RemoveAt(0);
-                            break;
-                        case "4":
-                            Scale.Scale.RemoveAt(0);
-                            Console.WriteLine("You chose \"Wait\"");
-                            Wait(currentBattleStack);
-                            break;
-                        case "5":
-                            //Scale.Scale.RemoveAt(0);
-                            Console.WriteLine("You chose \"Give up\"");
-                            GiveUp(currentBattleStack);
-                            break;
-                        default:
-                            Console.WriteLine("Incorrect command, try again");
-                            break;
+                        switch (action)
+                        {
+                            case "1":
+                                HasActionChosen = true;
+                                Scale.Scale.RemoveAt(0);
+                                BattleArmy attackedArmy =
+                                    currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
+                                BattleUnitsStack attackedStack = Attacker.Attack(currentBattleStack, attackedArmy);
+                                Scale.CheckAttackedStack(attackedStack);
 
+                                break;
+                            case "2":
+                                HasActionChosen = true;
+                                Scale.Scale.RemoveAt(0);
+                                Console.WriteLine("You chose \"Defend\"");
+                                Defend(currentBattleStack.Item1);
+                                break;
+                            case "3":
+
+                                if (currentBattleStack.Item1.Magic.Count > 0)
+                                {
+                                    Console.WriteLine("Available magic:");
+                                    foreach (var magic in currentBattleStack.Item1.Magic)
+                                    {
+                                        if (magic.Item2)
+                                        {
+                                            Console.WriteLine(magic.Item1);
+                                        }
+                                    }
+                                    Console.WriteLine("Enter the index of magic you wanna cast(from 0) or \"-1\" to choose another action");
+                                    while (true)
+                                    {
+                                        var indexOfMagic = Console.ReadLine();
+                                        if (!int.TryParse(indexOfMagic, out int i))
+                                            Console.WriteLine("Incorrect input, try again");
+                                        else
+                                        {
+                                            if (i < -1 || i > currentBattleStack.Item1.AvailableMagic() - 1)
+                                                Console.WriteLine("Incorrect input, try again");
+                                            else
+                                            {
+                                                if (i == -1)
+                                                {
+                                                    Console.WriteLine("You decided not to wiz, choose another action");
+                                                    action = Console.ReadLine();
+                                                }
+                                                else
+                                                {
+                                                    HasActionChosen = true;
+                                                    Scale.Scale.RemoveAt(0);
+                                                    TypeOfMagic chosenMagic = currentBattleStack.Item1.AvailableMagicAt(i);
+                                                    Console.WriteLine($"You chose {chosenMagic}");
+                                                    //to do
+                                                    //вызов волшебства
+                                                    //перенести это все в wait scale
+                                                }
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("This stack can not wiz, choose another action");
+                                    action = Console.ReadLine();
+                                }
+
+                                break;
+                            case "4":
+                                HasActionChosen = true;
+                                Scale.Scale.RemoveAt(0);
+                                Console.WriteLine("You chose \"Wait\"");
+                                Wait(currentBattleStack);
+                                break;
+                            case "5":
+                                HasActionChosen = true;
+                                //Scale.Scale.RemoveAt(0);
+                                Console.WriteLine("You chose \"Give up\"");
+                                GiveUp(currentBattleStack);
+                                break;
+                            default:
+                                Console.WriteLine("Incorrect command, try again");
+                                action = Console.ReadLine();
+                                break;
+
+                        }
                     }
+
                     if (HasBattleEnded)
                     {
                         flag = true;
@@ -125,44 +181,47 @@ namespace game
                 {
                     (BattleUnitsStack, int) currentBattleStack = Scale.WaitScale[0];
                     Console.WriteLine(Scale);
-                    string name;
-                    if (currentBattleStack.Item2 == 1)
-                        name = FirstBattleArmy.ArmyName;
-                    else
-                        name = SecondBattleArmy.ArmyName;
+
+                    string name = currentBattleStack.Item2 == 1 ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
+
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
                     Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz(Don't choose it)\n[4] Give up\n");
                     string action = Console.ReadLine();
-                    switch (action)
+                    bool HasActionChosen = false;
+                    while (!HasActionChosen)
                     {
-                        case "1":
-                            Scale.WaitScale.RemoveAt(0);
-                            BattleArmy attackedArmy;
-                            if (currentBattleStack.Item2 == 1)
-                                attackedArmy = SecondBattleArmy;
-                            else
-                                attackedArmy = FirstBattleArmy;
-                            BattleUnitsStack attackedStack = Attacker.attack(currentBattleStack, attackedArmy);
-                            Scale.CheckAttackedStack(attackedStack);
+                        switch (action)
+                        {
+                            case "1":
+                                HasActionChosen = true;
+                                Scale.WaitScale.RemoveAt(0);
+                                BattleArmy attackedArmy =
+                                    currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
+                                BattleUnitsStack attackedStack = Attacker.Attack(currentBattleStack, attackedArmy);
+                                Scale.CheckAttackedStack(attackedStack);
 
-                            break;
-                        case "2":
-                            Scale.WaitScale.RemoveAt(0);
-                            Console.WriteLine("You chose \"Defend\"");
-                            Defend(currentBattleStack.Item1);
-                            break;
-                        case "3":
-                            //Scale.WaitScale.RemoveAt(0);
-                            break;
-                        case "4":
-                            //Scale.WaitScale.RemoveAt(0);
-                            Console.WriteLine("You chose \"Give up\"");
-                            GiveUp(currentBattleStack);
-                            break;
-                        default:
-                            Console.WriteLine("Incorrect command, try again");
-                            break;
+                                break;
+                            case "2":
+                                HasActionChosen = true;
+                                Scale.WaitScale.RemoveAt(0);
+                                Console.WriteLine("You chose \"Defend\"");
+                                Defend(currentBattleStack.Item1);
+                                break;
+                            case "3":
+                                //Scale.WaitScale.RemoveAt(0);
+                                break;
+                            case "4":
+                                HasActionChosen = true;
+                                //Scale.WaitScale.RemoveAt(0);
+                                Console.WriteLine("You chose \"Give up\"");
+                                GiveUp(currentBattleStack);
+                                break;
+                            default:
+                                Console.WriteLine("Incorrect command, try again");
+                                action = Console.ReadLine();
+                                break;
 
+                        }
                     }
 
                     if (HasBattleEnded)
@@ -188,6 +247,7 @@ namespace game
             }
             WhoWin();
             Console.WriteLine($"Winner of the battle: {Winner.ArmyName}");
+            Console.WriteLine(reason);
             Console.WriteLine("Losses:");
             Console.WriteLine($"Army {FirstBattleArmy.ArmyName}:\n{FirstBattleArmy.GetLosses()}\n");
             Console.WriteLine($"Army {SecondBattleArmy.ArmyName}:\n{SecondBattleArmy.GetLosses()}\n");

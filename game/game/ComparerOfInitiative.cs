@@ -8,11 +8,31 @@ namespace game
     {
         public int Compare((BattleUnitsStack, int) o1, (BattleUnitsStack, int) o2)
         {
-            if (o1.Item1.UnitType.Initiative > o2.Item1.UnitType.Initiative)
+            double initiativeMultiplier1 = 1;
+            double initiativeMultiplier2 = 1;
+            foreach (var effect in o1.Item1.Effects.AllEffects)
+            {
+                if (effect.Item1 == TypeOfEffect.IncreasedInitiative)
+                {
+                    initiativeMultiplier1 *= Config.INCREASED_INITIATIVE;
+                    break;
+                }
+                    
+            }
+            foreach (var effect in o2.Item1.Effects.AllEffects)
+            {
+                if (effect.Item1 == TypeOfEffect.IncreasedInitiative)
+                {
+                    initiativeMultiplier2 *= Config.INCREASED_INITIATIVE;
+                    break;
+                }
+
+            }
+            if (o1.Item1.UnitType.Initiative * initiativeMultiplier1 > o2.Item1.UnitType.Initiative * initiativeMultiplier2)
             {
                 return -1;
             }
-            else if (o1.Item1.UnitType.Initiative < o2.Item1.UnitType.Initiative)
+            else if (o1.Item1.UnitType.Initiative * initiativeMultiplier1 < o2.Item1.UnitType.Initiative * initiativeMultiplier2)
             {
                 return 1;
             }
@@ -24,15 +44,34 @@ namespace game
     {
         public int Compare((BattleUnitsStack, int) o1, (BattleUnitsStack, int) o2)
         {
-            if (o1.Item1.UnitType.Initiative > o2.Item1.UnitType.Initiative)
+            double initiativeMultiplier1 = 1;
+            double initiativeMultiplier2 = 1;
+            foreach (var effect in o1.Item1.Effects.AllEffects)
+            {
+                if (effect.Item1 == TypeOfEffect.IncreasedInitiative)
+                {
+                    initiativeMultiplier1 *= Config.INCREASED_INITIATIVE;
+                    break;
+                }
+
+            }
+            foreach (var effect in o2.Item1.Effects.AllEffects)
+            {
+                if (effect.Item1 == TypeOfEffect.IncreasedInitiative)
+                {
+                    initiativeMultiplier2 *= Config.INCREASED_INITIATIVE;
+                    break;
+                }
+
+            }
+            if (o1.Item1.UnitType.Initiative * initiativeMultiplier1 > o2.Item1.UnitType.Initiative * initiativeMultiplier2)
             {
                 return 1;
             }
-            else if (o1.Item1.UnitType.Initiative < o2.Item1.UnitType.Initiative)
+            else if (o1.Item1.UnitType.Initiative * initiativeMultiplier1 < o2.Item1.UnitType.Initiative * initiativeMultiplier2)
             {
                 return -1;
             }
-
             return 0;
         }
     }

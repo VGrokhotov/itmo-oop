@@ -1,21 +1,20 @@
 ﻿using System;
 using game.BattleArmyClasses;
+// ReSharper disable InconsistentNaming
 
 namespace game
 {
     public class Attacker
     {
-        public BattleUnitsStack attack((BattleUnitsStack, int) currentBattleStack, BattleArmy attackedArmy)
+        public BattleUnitsStack Attack((BattleUnitsStack, int) currentBattleStack, BattleArmy attackedArmy)
         {
             Console.WriteLine("You chose \"Attack\"");
             Console.WriteLine("You can now attack following stacks from ");
             Console.WriteLine(attackedArmy.AliveStacks());
             Console.WriteLine("Enter the index of stack you wanna attack (from 0)");
-            string numberOfStack;
-            BattleUnitsStack attackedStack;
             while (true)
             {
-                numberOfStack = Console.ReadLine();
+                var numberOfStack = Console.ReadLine();
                 if (!int.TryParse(numberOfStack, out int i))
                     Console.WriteLine("Incorrect input, try again");
                 else
@@ -24,15 +23,14 @@ namespace game
                         Console.WriteLine("Incorrect input, try again");
                     else
                     {
-                        attackedStack = attackedArmy.AliveStackAt(i);
-                        attack(currentBattleStack.Item1, attackedArmy.AliveStackAt(i));
+                        BattleUnitsStack attackedStack = attackedArmy.AliveStackAt(i);
+                        Attack(currentBattleStack.Item1, attackedArmy.AliveStackAt(i));
                         return attackedStack;
-                        break;
                     }
                 }
             }
         }
-        public void attack(BattleUnitsStack attacking, BattleUnitsStack attacked)
+        public void Attack(BattleUnitsStack attacking, BattleUnitsStack attacked)
         {
             int Damage(BattleUnitsStack attackingBUS, BattleUnitsStack attackedBUS)
             {
@@ -58,6 +56,10 @@ namespace game
                 double damage2;
                 double attack = (int)attackingBUS.UnitType.Attack - DecreasedAttack + IncreasedAttack;
                 double defence = ((int)attackedBUS.UnitType.Defence - DecreasedDefence) * IsDefend;
+                if (attack < 0)
+                    attack = 0;
+                if (defence < 0)
+                    defence = 0;
                 if (attack > defence)
                 {
                     damage1 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item1 * (1 + 0.05 * (attack - defence));
