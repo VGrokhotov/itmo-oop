@@ -96,7 +96,7 @@ namespace game
                                 Defend(currentBattleStack.Item1);
                                 break;
                             case "3":
-
+                                Console.WriteLine("You chose \"Wiz\"");
                                 if (currentBattleStack.Item1.Magic.Count > 0)
                                 {
                                     Console.WriteLine("Available magic:");
@@ -133,6 +133,48 @@ namespace game
                                                     //to do
                                                     //вызов волшебства
                                                     //перенести это все в wait scale
+                                                    BattleArmy toWhatArmyUseMagic;
+                                                    if (chosenMagic == TypeOfMagic.Curse || chosenMagic == TypeOfMagic.Attenuation)
+                                                        toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
+                                                    else
+                                                        toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? FirstBattleArmy : SecondBattleArmy;
+                                                    Console.WriteLine($"You can now use {chosenMagic} to following stacks from ");
+                                                    Console.WriteLine(toWhatArmyUseMagic.AliveStacks());
+                                                    Console.WriteLine("Enter the index of stack you wanna attack (from 0)");
+                                                    while (true)
+                                                    {
+                                                        var numberOfStack = Console.ReadLine();
+                                                        if (!int.TryParse(numberOfStack, out int j))
+                                                            Console.WriteLine("Incorrect input, try again");
+                                                        else
+                                                        {
+                                                            if (j < 0 || j > toWhatArmyUseMagic.AmountOfAliveStacks() - 1)
+                                                                Console.WriteLine("Incorrect input, try again");
+                                                            else
+                                                            {
+                                                                BattleUnitsStack toWhatStackUseMagic = toWhatArmyUseMagic.AliveStackAt(j);
+                                                                switch (chosenMagic)
+                                                                {
+                                                                    case TypeOfMagic.Resurrection:
+                                                                        Wizard.Resurrection(toWhatStackUseMagic, currentBattleStack.Item1);
+                                                                        break;
+                                                                    case TypeOfMagic.Acceleration:
+                                                                        Wizard.Acceleration(toWhatStackUseMagic);
+                                                                        break;
+                                                                    case TypeOfMagic.Attenuation:
+                                                                        Wizard.Attenuation(toWhatStackUseMagic);
+                                                                        break;
+                                                                    case TypeOfMagic.PunishingStrike:
+                                                                        Wizard.PunishingStrike(toWhatStackUseMagic);
+                                                                        break;
+                                                                    case TypeOfMagic.Curse:
+                                                                        Wizard.Curse(toWhatStackUseMagic);
+                                                                        break;
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                                 break;
                                             }

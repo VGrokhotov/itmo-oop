@@ -48,7 +48,7 @@ namespace game.BattleArmyClasses
         {
             if (army.StacksList.Count > Config.MAX_ARMY_NUMBER)
             {
-                throw new ArgumentException("To much Stacks");
+                throw new ArgumentException("Too much Stacks");
             }
             var newStacksList = new List<BattleUnitsStack>();
             army.StacksList.ForEach((stack) => newStacksList.Add(new BattleUnitsStack(stack)));

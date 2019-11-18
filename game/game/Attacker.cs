@@ -43,7 +43,7 @@ namespace game
                     if (effect.Item1 == TypeOfEffect.DecreasedAttack)
                         DecreasedAttack = (int)Config.DECREASED_ATTACK;
                     if (effect.Item1 == TypeOfEffect.IncreasedAttack)
-                        DecreasedAttack = (int)Config.INCREASED_ATTACK;
+                        IncreasedAttack = (int)Config.INCREASED_ATTACK;
                 }
                 foreach (var effect in attackedBUS.Effects.AllEffects)
                 {
