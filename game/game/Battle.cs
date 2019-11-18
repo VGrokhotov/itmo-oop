@@ -97,97 +97,9 @@ namespace game
                                 break;
                             case "3":
                                 Console.WriteLine("You chose \"Wiz\"");
-                                if (currentBattleStack.Item1.Magic.Count > 0)
-                                {
-                                    Console.WriteLine("Available magic:");
-                                    foreach (var magic in currentBattleStack.Item1.Magic)
-                                    {
-                                        if (magic.Item2)
-                                        {
-                                            Console.WriteLine(magic.Item1);
-                                        }
-                                    }
-                                    Console.WriteLine("Enter the index of magic you wanna cast(from 0) or \"-1\" to choose another action");
-                                    while (true)
-                                    {
-                                        var indexOfMagic = Console.ReadLine();
-                                        if (!int.TryParse(indexOfMagic, out int i))
-                                            Console.WriteLine("Incorrect input, try again");
-                                        else
-                                        {
-                                            if (i < -1 || i > currentBattleStack.Item1.AvailableMagic() - 1)
-                                                Console.WriteLine("Incorrect input, try again");
-                                            else
-                                            {
-                                                if (i == -1)
-                                                {
-                                                    Console.WriteLine("You decided not to wiz, choose another action");
-                                                    action = Console.ReadLine();
-                                                }
-                                                else
-                                                {
-                                                    HasActionChosen = true;
-                                                    Scale.Scale.RemoveAt(0);
-                                                    TypeOfMagic chosenMagic = currentBattleStack.Item1.AvailableMagicAt(i);
-                                                    Console.WriteLine($"You chose {chosenMagic}");
-                                                    //to do
-                                                    //вызов волшебства
-                                                    //перенести это все в wait scale
-                                                    BattleArmy toWhatArmyUseMagic;
-                                                    if (chosenMagic == TypeOfMagic.Curse || chosenMagic == TypeOfMagic.Attenuation)
-                                                        toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
-                                                    else
-                                                        toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? FirstBattleArmy : SecondBattleArmy;
-                                                    Console.WriteLine($"You can now use {chosenMagic} to following stacks from ");
-                                                    Console.WriteLine(toWhatArmyUseMagic.AliveStacks());
-                                                    Console.WriteLine("Enter the index of stack you wanna attack (from 0)");
-                                                    while (true)
-                                                    {
-                                                        var numberOfStack = Console.ReadLine();
-                                                        if (!int.TryParse(numberOfStack, out int j))
-                                                            Console.WriteLine("Incorrect input, try again");
-                                                        else
-                                                        {
-                                                            if (j < 0 || j > toWhatArmyUseMagic.AmountOfAliveStacks() - 1)
-                                                                Console.WriteLine("Incorrect input, try again");
-                                                            else
-                                                            {
-                                                                BattleUnitsStack toWhatStackUseMagic = toWhatArmyUseMagic.AliveStackAt(j);
-                                                                switch (chosenMagic)
-                                                                {
-                                                                    case TypeOfMagic.Resurrection:
-                                                                        Wizard.Resurrection(toWhatStackUseMagic, currentBattleStack.Item1);
-                                                                        break;
-                                                                    case TypeOfMagic.Acceleration:
-                                                                        Wizard.Acceleration(toWhatStackUseMagic);
-                                                                        break;
-                                                                    case TypeOfMagic.Attenuation:
-                                                                        Wizard.Attenuation(toWhatStackUseMagic);
-                                                                        break;
-                                                                    case TypeOfMagic.PunishingStrike:
-                                                                        Wizard.PunishingStrike(toWhatStackUseMagic);
-                                                                        break;
-                                                                    case TypeOfMagic.Curse:
-                                                                        Wizard.Curse(toWhatStackUseMagic);
-                                                                        break;
-                                                                }
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                break;
-                                            }
-                                        }
-                                    }
-
-                                }
-                                else
-                                {
-                                    Console.WriteLine("This stack can not wiz, choose another action");
+                                HasActionChosen = Wizard.Wiz(currentBattleStack, FirstBattleArmy, SecondBattleArmy, Scale.Scale);
+                                if (!HasActionChosen)
                                     action = Console.ReadLine();
-                                }
-
                                 break;
                             case "4":
                                 HasActionChosen = true;
@@ -227,7 +139,7 @@ namespace game
                     string name = currentBattleStack.Item2 == 1 ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
 
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
-                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz(Don't choose it)\n[4] Give up\n");
+                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Give up\n");
                     string action = Console.ReadLine();
                     bool HasActionChosen = false;
                     while (!HasActionChosen)
@@ -250,7 +162,10 @@ namespace game
                                 Defend(currentBattleStack.Item1);
                                 break;
                             case "3":
-                                //Scale.WaitScale.RemoveAt(0);
+                                Console.WriteLine("You chose \"Wiz\"");
+                                HasActionChosen = Wizard.Wiz(currentBattleStack, FirstBattleArmy, SecondBattleArmy, Scale.WaitScale);
+                                if (!HasActionChosen)
+                                    action = Console.ReadLine();
                                 break;
                             case "4":
                                 HasActionChosen = true;
