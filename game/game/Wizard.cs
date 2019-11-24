@@ -10,15 +10,8 @@ namespace game
         {
             if (currentBattleStack.Item1.Magic.Count > 0)
             {
-                Console.WriteLine("Available magic:");
-                foreach (var magic in currentBattleStack.Item1.Magic)
-                {
-                    if (magic.Item2)
-                    {
-                        Console.WriteLine(magic.Item1);
-                    }
-                }
-                Console.WriteLine("Enter the index of magic you wanna cast(from 0) or \"-1\" to choose another action");
+                Console.WriteLine(currentBattleStack.Item1.AvailableMagic());
+                Console.WriteLine("Enter the index of magic you wanna cast or \"0\" to choose another action");
                 while (true)
                 {
                     var indexOfMagic = Console.ReadLine();
@@ -26,11 +19,11 @@ namespace game
                         Console.WriteLine("Incorrect input, try again");
                     else
                     {
-                        if (i < -1 || i > currentBattleStack.Item1.AvailableMagic() - 1)
+                        if (i < 0 || i > currentBattleStack.Item1.AmountOfAvailableMagic())
                             Console.WriteLine("Incorrect input, try again");
                         else
                         {
-                            if (i == -1)
+                            if (i == 0)
                             {
                                 Console.WriteLine("You decided not to wiz, choose another action");
                                 return false;
@@ -41,17 +34,16 @@ namespace game
                                 Scale.RemoveAt(0);
                                 TypeOfMagic chosenMagic = currentBattleStack.Item1.AvailableMagicAt(i);
                                 Console.WriteLine($"You chose {chosenMagic}");
-                                //to do
-                                //вызов волшебства
-                                //перенести это все в wait scale
+
                                 BattleArmy toWhatArmyUseMagic;
                                 if (chosenMagic == TypeOfMagic.Curse || chosenMagic == TypeOfMagic.Attenuation)
                                     toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
                                 else
                                     toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? FirstBattleArmy : SecondBattleArmy;
                                 Console.WriteLine($"You can now use {chosenMagic} to following stacks from ");
+                                //нужно вызывать не живые стаки, а все, если выбрали возраждене
                                 Console.WriteLine(toWhatArmyUseMagic.AliveStacks());
-                                Console.WriteLine("Enter the index of stack you wanna attack (from 0)");
+                                Console.WriteLine("Enter the index of stack you wanna wiz");
                                 while (true)
                                 {
                                     var numberOfStack = Console.ReadLine();
@@ -59,7 +51,7 @@ namespace game
                                         Console.WriteLine("Incorrect input, try again");
                                     else
                                     {
-                                        if (j < 0 || j > toWhatArmyUseMagic.AmountOfAliveStacks() - 1)
+                                        if (j < 1 || j > toWhatArmyUseMagic.AmountOfAliveStacks())
                                             Console.WriteLine("Incorrect input, try again");
                                         else
                                         {

@@ -35,7 +35,22 @@ namespace game.BattleArmyClasses
 
         public List<(TypeOfMagic, bool)> Magic;
 
-        public int AvailableMagic()
+        public string AvailableMagic()
+        {
+            string result = "Available magic:\n";
+            int index = 1;
+            foreach (var magic in this.Magic)
+            {
+                if (magic.Item2)
+                {
+                    result += $"[{index}] " + magic.Item1 + "\n";
+                    index++;
+                }
+            }
+            return result;
+        }
+
+        public int AmountOfAvailableMagic()
         {
             int answer = 0;
             foreach (var magic in Magic)
@@ -49,7 +64,7 @@ namespace game.BattleArmyClasses
 
         public TypeOfMagic AvailableMagicAt(int index)
         {
-            int i = -1;
+            int i = 0;
             foreach (var magic in Magic)
             {
                 if (magic.Item2)
@@ -58,7 +73,7 @@ namespace game.BattleArmyClasses
                     return magic.Item1;
             }
 
-            return TypeOfMagic.PunishingStrike;//надо чето придумать, тут не должно ничего быть
+            return TypeOfMagic.PunishingStrike;//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
         }
         public BattleUnitsStack(UnitsStack unitsStack)
         {
@@ -70,6 +85,10 @@ namespace game.BattleArmyClasses
             foreach (var magic in unitsStack.UnitType.AccessibleMagic)
             {
                 Magic.Add((magic, true));
+            }
+            foreach (var effect in unitsStack.UnitType.CongenitalEffects)
+            {
+                Effects.AllEffects.Add((effect, -1));
             }
         }
         

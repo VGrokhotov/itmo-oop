@@ -23,6 +23,8 @@ namespace game.BattleArmyClasses
             {
                 if (effect.Item2 > 1)
                     temp.Add((effect.Item1, effect.Item2 - 1));
+                if (effect.Item2 == -1 )
+                    temp.Add((effect.Item1, effect.Item2));
             }
             AllEffects.Clear();
             AllEffects = temp;
@@ -42,6 +44,12 @@ namespace game.BattleArmyClasses
             IncreasedAttack,
             DecreasedAttack,
             DecreasedDefence,
-            IsDefends
+            IsDefends,
+
+            Archer,
+            AccurateShot,
+            EnemyDoesNotRespond,
+            BeatAll,
+            EndlessRebuff
     }
 }

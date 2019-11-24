@@ -98,6 +98,7 @@ namespace game
                             case "3":
                                 Console.WriteLine("You chose \"Wiz\"");
                                 HasActionChosen = Wizard.Wiz(currentBattleStack, FirstBattleArmy, SecondBattleArmy, Scale.Scale);
+                                Scale.SortScales();
                                 if (!HasActionChosen)
                                     action = Console.ReadLine();
                                 break;

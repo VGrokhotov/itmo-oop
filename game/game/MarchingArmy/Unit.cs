@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using game.BattleArmyClasses;
 
 namespace game.MarchingArmy
 {
@@ -23,6 +24,18 @@ namespace game.MarchingArmy
             }
         }
 
+        protected List<TypeOfEffect> congenitalEffects;
+
+        public List<TypeOfEffect> CongenitalEffects
+        {
+            get
+            {
+                var newEffectList = new List<TypeOfEffect>();
+                congenitalEffects.ForEach((effect) => newEffectList.Add(effect));
+                return newEffectList;
+            }
+        }
+
         public Unit(string name, uint hitPoints, uint attack, uint defence, (uint, uint) damage,
             double initiative)
         {
@@ -33,6 +46,7 @@ namespace game.MarchingArmy
             this.Damage = damage;
             this.Initiative = initiative;
             accessibleMagic = new List<TypeOfMagic>();
+            congenitalEffects = new List<TypeOfEffect>();
         }
 
         public Unit Clone()
@@ -41,6 +55,10 @@ namespace game.MarchingArmy
             foreach (var magic in AccessibleMagic)
             {
                 currentUnit.accessibleMagic.Add(magic);
+            }
+            foreach (var effect in CongenitalEffects)
+            {
+                currentUnit.congenitalEffects.Add(effect);
             }
             return currentUnit;
         }

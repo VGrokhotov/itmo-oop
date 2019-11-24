@@ -31,6 +31,14 @@ namespace game
             Scale.Sort(comparerOfInitiative);
         }
 
+        public void SortScales()
+        {
+            ComparerOfInitiative comparerOfInitiative = new ComparerOfInitiative();
+            Scale.Sort(comparerOfInitiative);
+            ComparerOfWaitInitiative comparerOfWaitInitiative = new ComparerOfWaitInitiative();
+            WaitScale.Sort(comparerOfWaitInitiative);
+        }
+
         public void CheckAttackedStack(BattleUnitsStack attackedStack)
         {
             bool isInScale = false;

@@ -59,10 +59,14 @@ namespace game.BattleArmyClasses
         public string AliveStacks()
         {
             string result = $"Army {ArmyName} :\n";
+            int i = 1;
             foreach (var stack in StacksList)
             {
                 if (stack.IsAlive)
-                    result += stack.ToString();
+                {
+                    result += $"[{i}] " + stack;
+                    i++;
+                }
             }
             return result;
         }
@@ -79,7 +83,7 @@ namespace game.BattleArmyClasses
         }
         public BattleUnitsStack AliveStackAt(int index)
         {
-            int i = -1;
+            int i = 0;
             foreach (var stack in StacksList)
             {
                 if (stack.IsAlive)
