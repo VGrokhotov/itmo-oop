@@ -30,6 +30,17 @@ namespace game.BattleArmyClasses
             AllEffects = temp;
         }
 
+        public bool IsEffectApplied(TypeOfEffect Effect)
+        {
+            foreach (var effect in AllEffects)
+            {
+                if (effect.Item1 == Effect)
+                    return true;
+            }
+
+            return false;
+        }
+
         public void Clear()
         {
             if (this.AllEffects.Count != 0)

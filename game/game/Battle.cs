@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using game.BattleArmyClasses;
 using game.MarchingArmy;
 
@@ -85,8 +86,11 @@ namespace game
                                 Scale.Scale.RemoveAt(0);
                                 BattleArmy attackedArmy =
                                     currentBattleStack.Item2 == TypeOfArmy.First ? SecondBattleArmy : FirstBattleArmy;
-                                BattleUnitsStack attackedStack = Attacker.Attack(currentBattleStack, attackedArmy);
-                                Scale.CheckAttackedStack(attackedStack);
+                                List<BattleUnitsStack> attackedStacks = Attacker.Attack(currentBattleStack, attackedArmy);
+                                foreach (var stack in attackedStacks)
+                                {
+                                    Scale.CheckAttackedStack(stack);
+                                }
 
                                 break;
                             case "2":
@@ -152,8 +156,11 @@ namespace game
                                 Scale.WaitScale.RemoveAt(0);
                                 BattleArmy attackedArmy =
                                     currentBattleStack.Item2 == TypeOfArmy.First ? SecondBattleArmy : FirstBattleArmy;
-                                BattleUnitsStack attackedStack = Attacker.Attack(currentBattleStack, attackedArmy);
-                                Scale.CheckAttackedStack(attackedStack);
+                                List<BattleUnitsStack> attackedStacks = Attacker.Attack(currentBattleStack, attackedArmy);
+                                foreach (var stack in attackedStacks)
+                                {
+                                    Scale.CheckAttackedStack(stack);
+                                }
 
                                 break;
                             case "2":

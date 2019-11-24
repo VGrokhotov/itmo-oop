@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using game.BattleArmyClasses;
 // ReSharper disable InconsistentNaming
 
@@ -6,7 +7,7 @@ namespace game
 {
     public class Attacker
     {
-        public BattleUnitsStack Attack((BattleUnitsStack, TypeOfArmy) currentBattleStack, BattleArmy attackedArmy)
+        public List<BattleUnitsStack> Attack((BattleUnitsStack, TypeOfArmy) currentBattleStack, BattleArmy attackedArmy)
         {
             Console.WriteLine("You chose \"Attack\"");
             Console.WriteLine("You can now attack following stacks from ");
@@ -23,9 +24,24 @@ namespace game
                         Console.WriteLine("Incorrect input, try again");
                     else
                     {
-                        BattleUnitsStack attackedStack = attackedArmy.AliveStackAt(i);
-                        Attack(currentBattleStack.Item1, attackedArmy.AliveStackAt(i));
-                        return attackedStack;
+                        if (currentBattleStack.Item1.Effects.IsEffectApplied(TypeOfEffect.BeatAll))
+                        {
+                            List<BattleUnitsStack> attackedStacks = new List<BattleUnitsStack>();
+                            for (int j = attackedArmy.AmountOfAliveStacks(); j > 0; j--)
+                            {
+                                attackedStacks.Add(attackedArmy.AliveStackAt(j));
+                                Attack(currentBattleStack.Item1, attackedArmy.AliveStackAt(j));
+                            }
+
+                            return attackedStacks;
+                        }
+                        else {
+                            BattleUnitsStack attackedStack = attackedArmy.AliveStackAt(i);
+                            Attack(currentBattleStack.Item1, attackedArmy.AliveStackAt(i)); 
+                            return new List<BattleUnitsStack>(){ attackedStack };
+
+                        }
+                        
                     }
                 }
             }
