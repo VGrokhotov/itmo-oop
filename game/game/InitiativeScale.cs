@@ -5,13 +5,13 @@ namespace game
 {
     public class InitiativeScale
     {
-        public List<(BattleUnitsStack, int)> Scale;
-        public List<(BattleUnitsStack, int)> WaitScale;
+        public List<(BattleUnitsStack, TypeOfArmy)> Scale;
+        public List<(BattleUnitsStack, TypeOfArmy)> WaitScale;
 
         public InitiativeScale()
         {
-            Scale = new List<(BattleUnitsStack, int)>();
-            WaitScale = new List<(BattleUnitsStack, int)>();
+            Scale = new List<(BattleUnitsStack, TypeOfArmy)>();
+            WaitScale = new List<(BattleUnitsStack, TypeOfArmy)>();
         }
         public void MakeInitiativeScale(BattleArmy firstBattleArmy, BattleArmy secondBattleArmy)
         {
@@ -20,12 +20,12 @@ namespace game
             foreach (var stack in firstBattleArmy.StacksList)
             {
                 if (stack.IsAlive)
-                    Scale.Add((stack, 1));
+                    Scale.Add((stack, TypeOfArmy.First));
             }
             foreach (var stack in secondBattleArmy.StacksList)
             {
                 if (stack.IsAlive)
-                    Scale.Add((stack, 2));
+                    Scale.Add((stack, TypeOfArmy.Second));
             }
             ComparerOfInitiative comparerOfInitiative = new ComparerOfInitiative();
             Scale.Sort(comparerOfInitiative);

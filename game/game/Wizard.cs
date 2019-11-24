@@ -6,9 +6,9 @@ namespace game
 {
     public class Wizard
     {
-        public bool Wiz((BattleUnitsStack, int) currentBattleStack, BattleArmy FirstBattleArmy, BattleArmy SecondBattleArmy, List<(BattleUnitsStack, int)> Scale)
+        public bool Wiz((BattleUnitsStack, TypeOfArmy) currentBattleStack, BattleArmy FirstBattleArmy, BattleArmy SecondBattleArmy, List<(BattleUnitsStack, TypeOfArmy)> Scale)
         {
-            if (currentBattleStack.Item1.Magic.Count > 0)
+            if (currentBattleStack.Item1.AmountOfAvailableMagic() > 0)
             {
                 Console.WriteLine(currentBattleStack.Item1.AvailableMagic());
                 Console.WriteLine("Enter the index of magic you wanna cast or \"0\" to choose another action");
@@ -34,12 +34,13 @@ namespace game
                                 Scale.RemoveAt(0);
                                 TypeOfMagic chosenMagic = currentBattleStack.Item1.AvailableMagicAt(i);
                                 Console.WriteLine($"You chose {chosenMagic}");
+                                currentBattleStack.Item1.BunToWiz(chosenMagic);
 
                                 BattleArmy toWhatArmyUseMagic;
                                 if (chosenMagic == TypeOfMagic.Curse || chosenMagic == TypeOfMagic.Attenuation)
-                                    toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
+                                    toWhatArmyUseMagic = currentBattleStack.Item2 == TypeOfArmy.First ? SecondBattleArmy : FirstBattleArmy;
                                 else
-                                    toWhatArmyUseMagic = currentBattleStack.Item2 == 1 ? FirstBattleArmy : SecondBattleArmy;
+                                    toWhatArmyUseMagic = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy : SecondBattleArmy;
                                 Console.WriteLine($"You can now use {chosenMagic} to following stacks from ");
                                 //нужно вызывать не живые стаки, а все, если выбрали возраждене
                                 Console.WriteLine(toWhatArmyUseMagic.AliveStacks());

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace game
 {
-    public class ComparerOfInitiative : IComparer<(BattleUnitsStack, int)>
+    public class ComparerOfInitiative : IComparer<(BattleUnitsStack, TypeOfArmy)>
     {
-        public int Compare((BattleUnitsStack, int) o1, (BattleUnitsStack, int) o2)
+        public int Compare((BattleUnitsStack, TypeOfArmy) o1, (BattleUnitsStack, TypeOfArmy) o2)
         {
             double initiativeMultiplier1 = 1;
             double initiativeMultiplier2 = 1;
@@ -40,9 +40,9 @@ namespace game
             return 0;
         }
     }
-    class ComparerOfWaitInitiative : IComparer<(BattleUnitsStack, int)>
+    class ComparerOfWaitInitiative : IComparer<(BattleUnitsStack, TypeOfArmy)>
     {
-        public int Compare((BattleUnitsStack, int) o1, (BattleUnitsStack, int) o2)
+        public int Compare((BattleUnitsStack, TypeOfArmy) o1, (BattleUnitsStack, TypeOfArmy) o2)
         {
             double initiativeMultiplier1 = 1;
             double initiativeMultiplier2 = 1;

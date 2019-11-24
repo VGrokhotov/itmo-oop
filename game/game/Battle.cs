@@ -16,7 +16,7 @@ namespace game
         private bool HasBattleEnded => !FirstBattleArmy.IsArmyAlive() || !SecondBattleArmy.IsArmyAlive() || Winner != null;
 
 
-        private void Wait((BattleUnitsStack, int) stackInScale)
+        private void Wait((BattleUnitsStack, TypeOfArmy) stackInScale)
         {
             Scale.WaitScale.Add(stackInScale);
             ComparerOfWaitInitiative comparerOfWaitInitiative = new ComparerOfWaitInitiative();
@@ -28,9 +28,9 @@ namespace game
             currentBattleUnitsStack.Effects.Add((TypeOfEffect.IsDefends, 1));
         }
 
-        private void GiveUp((BattleUnitsStack, int) stackInScale)
+        private void GiveUp((BattleUnitsStack, TypeOfArmy) stackInScale)
         {
-            Winner = stackInScale.Item2 == 2 ? FirstBattleArmy : SecondBattleArmy;
+            Winner = stackInScale.Item2 == TypeOfArmy.Second ? FirstBattleArmy : SecondBattleArmy;
         }
 
         private void WhoWin()
@@ -69,9 +69,9 @@ namespace game
                 while (Scale.Scale.Count > 0)
                 {
                     
-                    (BattleUnitsStack, int) currentBattleStack = Scale.Scale[0];
+                    (BattleUnitsStack, TypeOfArmy) currentBattleStack = Scale.Scale[0];
                     Console.WriteLine(Scale);
-                    string name = currentBattleStack.Item2 == 1 ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
+                    string name = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
                     Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Wait\n[5] Give up\n");
                     string action = Console.ReadLine();
@@ -84,7 +84,7 @@ namespace game
                                 HasActionChosen = true;
                                 Scale.Scale.RemoveAt(0);
                                 BattleArmy attackedArmy =
-                                    currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
+                                    currentBattleStack.Item2 == TypeOfArmy.First ? SecondBattleArmy : FirstBattleArmy;
                                 BattleUnitsStack attackedStack = Attacker.Attack(currentBattleStack, attackedArmy);
                                 Scale.CheckAttackedStack(attackedStack);
 
@@ -134,10 +134,10 @@ namespace game
 
                 while (Scale.WaitScale.Count > 0)
                 {
-                    (BattleUnitsStack, int) currentBattleStack = Scale.WaitScale[0];
+                    (BattleUnitsStack, TypeOfArmy) currentBattleStack = Scale.WaitScale[0];
                     Console.WriteLine(Scale);
 
-                    string name = currentBattleStack.Item2 == 1 ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
+                    string name = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
 
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
                     Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Give up\n");
@@ -151,7 +151,7 @@ namespace game
                                 HasActionChosen = true;
                                 Scale.WaitScale.RemoveAt(0);
                                 BattleArmy attackedArmy =
-                                    currentBattleStack.Item2 == 1 ? SecondBattleArmy : FirstBattleArmy;
+                                    currentBattleStack.Item2 == TypeOfArmy.First ? SecondBattleArmy : FirstBattleArmy;
                                 BattleUnitsStack attackedStack = Attacker.Attack(currentBattleStack, attackedArmy);
                                 Scale.CheckAttackedStack(attackedStack);
 
@@ -211,5 +211,11 @@ namespace game
             Console.WriteLine($"Army {SecondBattleArmy.ArmyName}:\n{SecondBattleArmy.GetLosses()}\n");
 
         }
+    }
+
+    public enum TypeOfArmy
+    {
+        First,
+        Second
     }
 }

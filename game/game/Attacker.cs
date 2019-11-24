@@ -6,7 +6,7 @@ namespace game
 {
     public class Attacker
     {
-        public BattleUnitsStack Attack((BattleUnitsStack, int) currentBattleStack, BattleArmy attackedArmy)
+        public BattleUnitsStack Attack((BattleUnitsStack, TypeOfArmy) currentBattleStack, BattleArmy attackedArmy)
         {
             Console.WriteLine("You chose \"Attack\"");
             Console.WriteLine("You can now attack following stacks from ");

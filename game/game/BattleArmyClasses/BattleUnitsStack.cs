@@ -75,6 +75,17 @@ namespace game.BattleArmyClasses
 
             return TypeOfMagic.PunishingStrike;//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
         }
+
+        public void BunToWiz(TypeOfMagic chosenMagic)
+        {
+            for (int i = 0; i < Magic.Count; i++)
+            {
+                if (Magic[i].Item1 == chosenMagic)
+                {
+                    Magic[i] = (chosenMagic, false);
+                }
+            }
+        }
         public BattleUnitsStack(UnitsStack unitsStack)
         {
             UnitType = unitsStack.UnitType.Clone();
