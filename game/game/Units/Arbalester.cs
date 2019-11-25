@@ -1,9 +1,14 @@
-﻿using game.MarchingArmy;
+﻿using game.BattleArmyClasses;
+using game.MarchingArmy;
 
 namespace game.Units
 {
     public class Arbalester : Unit
     {
-        public Arbalester() : base("Arbalester", 10, 4, 4, (2, 8), 8) { }
+        public Arbalester() : base("Arbalester", 10, 4, 4, (2, 8), 8)
+        {
+            congenitalEffects.Add(TypeOfEffect.Archer);
+            congenitalEffects.Add(TypeOfEffect.AccurateShot);
+        }
     }
 }

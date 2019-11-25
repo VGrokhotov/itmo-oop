@@ -55,31 +55,46 @@ namespace game
                                         Console.WriteLine("Incorrect input, try again");
                                     else
                                     {
-                                        if (chosenMagic == TypeOfMagic.Resurrection) { }
-                                        if (j < 1 || j > toWhatArmyUseMagic.AmountOfAliveStacks())
-                                            Console.WriteLine("Incorrect input, try again");
+                                        if (chosenMagic == TypeOfMagic.Resurrection)
+                                        {
+                                            if (j < 1 || j > toWhatArmyUseMagic.StacksList.Count)
+                                                Console.WriteLine("Incorrect input, try again");
+                                            else
+                                            {
+                                                BattleUnitsStack toWhatStackUseMagic = toWhatArmyUseMagic.StacksList[j-1];
+                                                Resurrection(toWhatStackUseMagic, currentBattleStack.Item1);
+                                                break;
+                                            }
+                                        }
                                         else
                                         {
-                                            BattleUnitsStack toWhatStackUseMagic = toWhatArmyUseMagic.AliveStackAt(j);
-                                            switch (chosenMagic)
+                                            if (j < 1 || j > toWhatArmyUseMagic.AmountOfAliveStacks())
+                                                Console.WriteLine("Incorrect input, try again");
+                                            else
                                             {
-                                                case TypeOfMagic.Resurrection:
-                                                    Resurrection(toWhatStackUseMagic, currentBattleStack.Item1);
-                                                    break;
-                                                case TypeOfMagic.Acceleration:
-                                                    Acceleration(toWhatStackUseMagic);
-                                                    break;
-                                                case TypeOfMagic.Attenuation: 
-                                                    Attenuation(toWhatStackUseMagic);
-                                                    break;
-                                                case TypeOfMagic.PunishingStrike:
-                                                    PunishingStrike(toWhatStackUseMagic);
-                                                    break;
-                                                case TypeOfMagic.Curse:
-                                                    Curse(toWhatStackUseMagic);
-                                                    break;
+                                                BattleUnitsStack toWhatStackUseMagic =
+                                                    toWhatArmyUseMagic.AliveStackAt(j);
+                                                switch (chosenMagic)
+                                                {
+                                                    /*case TypeOfMagic.Resurrection:
+                                                        Resurrection(toWhatStackUseMagic, currentBattleStack.Item1);
+                                                        break;*/
+                                                    case TypeOfMagic.Acceleration:
+                                                        Acceleration(toWhatStackUseMagic);
+                                                        break;
+                                                    case TypeOfMagic.Attenuation:
+                                                        Attenuation(toWhatStackUseMagic);
+                                                        break;
+                                                    case TypeOfMagic.PunishingStrike:
+                                                        PunishingStrike(toWhatStackUseMagic);
+                                                        break;
+                                                    case TypeOfMagic.Curse:
+                                                        Curse(toWhatStackUseMagic);
+                                                        break;
+                                                }
+
+                                                break;
                                             }
-                                            break;
                                         }
                                     }
                                 }
