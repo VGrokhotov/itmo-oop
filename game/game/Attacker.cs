@@ -103,7 +103,7 @@ namespace game
             }
             else
             {
-                attacked.Hp -= damage;
+                attacked.Hp = 0;//-= damage
             }
 
             Console.WriteLine($"{attacking.UnitType.Name} make {damage} damage to {attacked.UnitType.Name}, {dead} dead");
@@ -137,7 +137,7 @@ namespace game
                 }
                 else
                 {
-                    attacking.Hp -= damageOfRespond;
+                    attacking.Hp = 0; //-= damageOfRespond
                 }
                 Console.WriteLine($"{attacked.UnitType.Name} make {damageOfRespond} damage to {attacking.UnitType.Name} in return, {dead} dead");
 

@@ -114,9 +114,11 @@ namespace game.BattleArmyClasses
         public override string ToString()
         {
             string result = $"Army {ArmyName} :\n";
+            int i = 1;
             foreach (var stack in _stacksList)
             {
-                result += stack.ToString();
+                result += $"[{i}] " + stack;
+                i++;
             }
             return result;
         }

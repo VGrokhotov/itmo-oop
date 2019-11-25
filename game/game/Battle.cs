@@ -201,12 +201,12 @@ namespace game
                 
                 foreach (var stack in FirstBattleArmy.StacksList)
                 {
-                    stack.CheckEffectsAtEndOfTern();
+                    stack.CheckEffectsAtEndOfTurn();
                     stack.HasRespondThisTurn = false;
                 }
                 foreach (var stack in SecondBattleArmy.StacksList)
                 {
-                    stack.CheckEffectsAtEndOfTern();
+                    stack.CheckEffectsAtEndOfTurn();
                     stack.HasRespondThisTurn = false;
                 }
             }

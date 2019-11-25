@@ -21,7 +21,7 @@ namespace game.BattleArmyClasses
         public Effects Effects;
 
 
-        public void CheckEffectsAtEndOfTern()
+        public void CheckEffectsAtEndOfTurn()
         {
             if (IsAlive)
             {

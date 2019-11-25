@@ -43,7 +43,10 @@ namespace game
                                     toWhatArmyUseMagic = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy : SecondBattleArmy;
                                 Console.WriteLine($"You can now use {chosenMagic} to following stacks from ");
                                 //нужно вызывать не живые стаки, а все, если выбрали возраждене
-                                Console.WriteLine(toWhatArmyUseMagic.AliveStacks());
+                                if (chosenMagic == TypeOfMagic.Resurrection)
+                                    Console.WriteLine(toWhatArmyUseMagic);
+                                else
+                                    Console.WriteLine(toWhatArmyUseMagic.AliveStacks());
                                 Console.WriteLine("Enter the index of stack you wanna wiz");
                                 while (true)
                                 {
@@ -52,6 +55,7 @@ namespace game
                                         Console.WriteLine("Incorrect input, try again");
                                     else
                                     {
+                                        if (chosenMagic == TypeOfMagic.Resurrection) { }
                                         if (j < 1 || j > toWhatArmyUseMagic.AmountOfAliveStacks())
                                             Console.WriteLine("Incorrect input, try again");
                                         else
