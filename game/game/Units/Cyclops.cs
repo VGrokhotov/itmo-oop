@@ -1,4 +1,5 @@
-﻿using game.MarchingArmy;
+﻿using game.BattleArmyClasses;
+using game.MarchingArmy;
 
 namespace game.Units
 {
