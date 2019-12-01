@@ -19,6 +19,7 @@ namespace game.BattleArmyClasses
         public void Add((TypeOfEffect, int) effect)
         {
             AllEffects.Add(effect);
+            effect.Item1.Modify(CurrentBattleUnitsStack);
         }
 
         public void DecreaseTurns()
