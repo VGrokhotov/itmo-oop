@@ -115,19 +115,19 @@ namespace game
         }
         public void PunishingStrike(BattleUnitsStack currentBattleUnitsStack)
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.IncreasedAttack, 3));
+            currentBattleUnitsStack.Effects.Add((new IncreasedAttack(), 3));
         }
         public void  Curse(BattleUnitsStack currentBattleUnitsStack)
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.DecreasedAttack, 3));
+            currentBattleUnitsStack.Effects.Add((new DecreasedAttack(), 3));
         }
         public void Attenuation(BattleUnitsStack currentBattleUnitsStack)
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.DecreasedDefence, 5));
+            currentBattleUnitsStack.Effects.Add((new DecreasedDefence(), 5));
         }
         public void Acceleration(BattleUnitsStack currentBattleUnitsStack)
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.IncreasedInitiative, 3));
+            currentBattleUnitsStack.Effects.Add((new IncreasedInitiative(), 3));
         }
         public void Resurrection(BattleUnitsStack currentBattleUnitsStack, BattleUnitsStack whoHeal)
         {

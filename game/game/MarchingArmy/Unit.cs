@@ -43,7 +43,7 @@ namespace game.MarchingArmy
             this.HitPoints = hitPoints;
             this.Attack = attack;
             this.Defence = defence;
-            this.Damage = damage;
+            this.Damage = damage.Item1 <= damage.Item2 ? damage : (damage.Item2, damage.Item1);
             this.Initiative = initiative;
             accessibleMagic = new List<TypeOfMagic>();
             congenitalEffects = new List<TypeOfEffect>();

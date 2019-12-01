@@ -26,7 +26,7 @@ namespace game
 
         private void Defend(BattleUnitsStack currentBattleUnitsStack)
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.IsDefends, 1));
+            currentBattleUnitsStack.Effects.Add((new IsDefends(), 1));
         }
 
         private void GiveUp((BattleUnitsStack, TypeOfArmy) stackInScale)
