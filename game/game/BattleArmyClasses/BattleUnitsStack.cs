@@ -75,7 +75,7 @@ namespace game.BattleArmyClasses
                     return magic.Item1;
             }
 
-            return TypeOfMagic.PunishingStrike;//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
+            return new PunishingStrike();//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
         }
 
         public void BunToWiz(TypeOfMagic chosenMagic)

@@ -71,20 +71,20 @@ namespace game.BattleArmyClasses
             EndlessRebuff
     }*/
 
-    public interface TypeOfEffect
+    public abstract class TypeOfEffect
     {
-        void Modify(BattleUnitsStack currentBattleUnitsStack);
-        void Unmodify(BattleUnitsStack currentBattleUnitsStack);
+        public abstract void Modify(BattleUnitsStack currentBattleUnitsStack);
+        public abstract void Unmodify(BattleUnitsStack currentBattleUnitsStack);
     }
 
     public class IncreasedInitiative : TypeOfEffect
     {
-        public void Modify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.whiteInitiative *= 1.4;
         }
 
-        public void Unmodify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.whiteInitiative /= 1.4;
         }
@@ -92,12 +92,12 @@ namespace game.BattleArmyClasses
 
     public class IncreasedAttack : TypeOfEffect
     {
-        public void Modify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.greenAttack += 12;
         }
 
-        public void Unmodify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.greenAttack -= 12;
         }
@@ -105,12 +105,12 @@ namespace game.BattleArmyClasses
 
     public class DecreasedAttack : TypeOfEffect
     {
-        public void Modify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.greenAttack -= 12;
         }
 
-        public void Unmodify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.greenAttack += 12;
         }
@@ -118,12 +118,12 @@ namespace game.BattleArmyClasses
 
     public class DecreasedDefence : TypeOfEffect
     {
-        public void Modify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.greenDefence -= 12;
         }
 
-        public void Unmodify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.greenDefence += 12;
         }
@@ -131,12 +131,12 @@ namespace game.BattleArmyClasses
 
     public class IsDefends : TypeOfEffect
     {
-        public void Modify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.whiteDefence = (int)Math.Floor(currentBattleUnitsStack.BattleUnit.whiteDefence * 1.3);
         }
 
-        public void Unmodify(BattleUnitsStack currentBattleUnitsStack)
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack)
         {
             currentBattleUnitsStack.BattleUnit.whiteDefence = (int)Math.Ceiling(currentBattleUnitsStack.BattleUnit.whiteDefence / 1.3);
         }

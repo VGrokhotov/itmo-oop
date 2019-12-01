@@ -6,9 +6,9 @@ namespace game.Units
     {
         public Devil() : base("Devil", 166, 27, 25, damage: (36, 66), 11)
         {
-            this.accessibleMagic.Add(TypeOfMagic.Attenuation);
-            this.accessibleMagic.Add(TypeOfMagic.Curse);
-            this.accessibleMagic.Add(TypeOfMagic.PunishingStrike);
+            this.accessibleMagic.Add(new Attenuation());
+            this.accessibleMagic.Add(new Curse());
+            this.accessibleMagic.Add(new PunishingStrike());
         }
     }
 }
