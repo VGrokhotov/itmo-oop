@@ -17,6 +17,8 @@ namespace game.BattleArmyClasses
         public int Hp { get; set; }
 
         public bool HasRespondThisTurn = false;
+        public bool EnemyDoesNotRespond = false;
+        public bool BeatAll = false;
 
         public bool IsAlive => Hp > 0;
 
@@ -75,7 +77,7 @@ namespace game.BattleArmyClasses
                     return magic.Item1;
             }
 
-            return new PunishingStrike();//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
+            return PunishingStrike.GetInstance();//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
         }
 
         public void BunToWiz(TypeOfMagic chosenMagic)
@@ -102,7 +104,7 @@ namespace game.BattleArmyClasses
             }
             foreach (var effect in unitsStack.UnitType.CongenitalEffects)
             {
-                Effects.AllEffects.Add((effect, -1));
+                Effects.Add((effect, -1));
             }
         }
         

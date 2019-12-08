@@ -22,15 +22,32 @@ namespace game.BattleArmyClasses
             effect.Item1.Modify(CurrentBattleUnitsStack);
         }
 
+        public void ReturnFeatures()
+        {
+            foreach (var effect in AllEffects)
+            {
+                if (effect.Item2 == -1)
+                {
+                    effect.Item1.Modify(CurrentBattleUnitsStack);
+                }
+            }
+        }
+
         public void DecreaseTurns()
         {
             List <(TypeOfEffect, int)> temp = new List<(TypeOfEffect, int)>();
             foreach (var effect in AllEffects)
             {
-                if (effect.Item2 > 1)
+                if (effect.Item2 > 1 )
                     temp.Add((effect.Item1, effect.Item2 - 1));
                 else
-                    effect.Item1.Unmodify(CurrentBattleUnitsStack);
+                {
+                    if (effect.Item2 == -1)
+                        temp.Add((effect.Item1, effect.Item2));
+                    else 
+                        effect.Item1.Unmodify(CurrentBattleUnitsStack);
+                }
+                    
 
             }
             AllEffects.Clear();
@@ -55,21 +72,7 @@ namespace game.BattleArmyClasses
         }
 
     }
-    /*public enum TypeOfEffect
-        {
-            DecreasedInitiative,
-            IncreasedInitiative,+
-            IncreasedAttack,+
-            DecreasedAttack,+
-            DecreasedDefence,+
-            IsDefends,+
-
-            Archer,
-            AccurateShot,
-            EnemyDoesNotRespond,
-            BeatAll,
-            EndlessRebuff
-    }*/
+    
 
     public abstract class TypeOfEffect
     {
@@ -141,4 +144,36 @@ namespace game.BattleArmyClasses
             currentBattleUnitsStack.BattleUnit.whiteDefence = (int)Math.Ceiling(currentBattleUnitsStack.BattleUnit.whiteDefence / 1.3);
         }
     }
+
+    public class Archer : TypeOfEffect
+    {
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
+        {
+            currentBattleUnitsStack.EnemyDoesNotRespond = true;
+            currentBattleUnitsStack.HasRespondThisTurn = true;
+        }
+
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack) {}
+    }
+
+    public class EnemyDoesNotRespond : TypeOfEffect
+    {
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
+        {
+            currentBattleUnitsStack.EnemyDoesNotRespond = true;
+        }
+
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack) { }
+    }
+
+    public class EndlessRebuff : TypeOfEffect
+    {
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
+        {
+            currentBattleUnitsStack.HasRespondThisTurn = false;
+        }
+
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack) { }
+    }
+    
 }

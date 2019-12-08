@@ -6,8 +6,8 @@ namespace game.Units
     {
         public Angel() : base("Angel", 180, 27, 27, damage: (45, 45), 11)
         {
-            this.accessibleMagic.Add(new Resurrection());
-            this.accessibleMagic.Add(new PunishingStrike());
+            this.accessibleMagic.Add(Resurrection.GetInstance());
+            this.accessibleMagic.Add(PunishingStrike.GetInstance());
         }
     }
 }

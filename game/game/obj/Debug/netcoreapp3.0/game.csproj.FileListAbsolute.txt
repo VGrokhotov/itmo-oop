@@ -1,7 +1,4 @@
-C:\Users\Lenonvo\Documents\itmo-oop\game\game\bin\Debug\netcoreapp3.0\game.exe
 C:\Users\Lenonvo\Documents\itmo-oop\game\game\bin\Debug\netcoreapp3.0\game.deps.json
-C:\Users\Lenonvo\Documents\itmo-oop\game\game\bin\Debug\netcoreapp3.0\game.runtimeconfig.json
-C:\Users\Lenonvo\Documents\itmo-oop\game\game\bin\Debug\netcoreapp3.0\game.runtimeconfig.dev.json
 C:\Users\Lenonvo\Documents\itmo-oop\game\game\bin\Debug\netcoreapp3.0\game.dll
 C:\Users\Lenonvo\Documents\itmo-oop\game\game\bin\Debug\netcoreapp3.0\game.pdb
 C:\Users\Lenonvo\Documents\itmo-oop\game\game\obj\Debug\netcoreapp3.0\game.csprojAssemblyReference.cache

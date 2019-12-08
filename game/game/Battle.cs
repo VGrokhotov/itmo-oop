@@ -89,6 +89,7 @@ namespace game
                                 List<BattleUnitsStack> attackedStacks = Attacker.Attack(currentBattleStack, attackedArmy);
                                 foreach (var stack in attackedStacks)
                                 {
+                                    stack.Effects.ReturnFeatures();
                                     Scale.CheckAttackedStack(stack);
                                 }
 
@@ -159,6 +160,7 @@ namespace game
                                 List<BattleUnitsStack> attackedStacks = Attacker.Attack(currentBattleStack, attackedArmy);
                                 foreach (var stack in attackedStacks)
                                 {
+                                    stack.Effects.ReturnFeatures();
                                     Scale.CheckAttackedStack(stack);
                                 }
 
@@ -172,6 +174,7 @@ namespace game
                             case "3":
                                 Console.WriteLine("You chose \"Wiz\"");
                                 HasActionChosen = Wizard.Wiz(currentBattleStack, FirstBattleArmy, SecondBattleArmy, Scale.WaitScale);
+                                Scale.SortScales();
                                 if (!HasActionChosen)
                                     action = Console.ReadLine();
                                 break;
@@ -201,13 +204,13 @@ namespace game
                 
                 foreach (var stack in FirstBattleArmy.StacksList)
                 {
-                    stack.CheckEffectsAtEndOfTurn();
                     stack.HasRespondThisTurn = false;
+                    stack.CheckEffectsAtEndOfTurn();
                 }
                 foreach (var stack in SecondBattleArmy.StacksList)
                 {
-                    stack.CheckEffectsAtEndOfTurn();
                     stack.HasRespondThisTurn = false;
+                    stack.CheckEffectsAtEndOfTurn();
                 }
             }
             WhoWin();

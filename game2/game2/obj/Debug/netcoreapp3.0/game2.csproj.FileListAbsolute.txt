@@ -1,0 +1,14 @@
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.exe
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.deps.json
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.runtimeconfig.json
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.runtimeconfig.dev.json
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.dll
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.pdb
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game.dll
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game.pdb
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\obj\Debug\netcoreapp3.0\game2.csprojAssemblyReference.cache
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\obj\Debug\netcoreapp3.0\game2.AssemblyInfoInputs.cache
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\obj\Debug\netcoreapp3.0\game2.AssemblyInfo.cs
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\obj\Debug\netcoreapp3.0\game2.csproj.CopyComplete
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\obj\Debug\netcoreapp3.0\game2.dll
+C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\obj\Debug\netcoreapp3.0\game2.pdb

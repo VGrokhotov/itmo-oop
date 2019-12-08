@@ -8,7 +8,7 @@ namespace game.Units
         public Hydra() : base("Hydra", 80, 15, 12, damage: (7, 14), 7)
         {
             //congenitalEffects.Add(TypeOfEffect.BeatAll);
-            //congenitalEffects.Add(TypeOfEffect.EnemyDoesNotRespond);
+            congenitalEffects.Add(new EnemyDoesNotRespond());
         }
     }
 }

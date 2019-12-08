@@ -7,8 +7,8 @@ namespace game.Units
     {
         public Lich() : base("Lich", 50, 15, 15, (12, 17), 10)
         {
-            accessibleMagic.Add(new Resurrection());
-            //congenitalEffects.Add(TypeOfEffect.Archer);
+            accessibleMagic.Add(Resurrection.GetInstance());
+            congenitalEffects.Add(new Archer());
         }
     }
 }

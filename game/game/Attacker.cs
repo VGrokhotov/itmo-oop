@@ -24,7 +24,7 @@ namespace game
                         Console.WriteLine("Incorrect input, try again");
                     else
                     {
-                        /*if (currentBattleStack.Item1.Effects.IsEffectApplied(TypeOfEffect.BeatAll))
+                        if (currentBattleStack.Item1.BeatAll == true)
                         {
                             List<BattleUnitsStack> attackedStacks = new List<BattleUnitsStack>();
                             for (int j = attackedArmy.AmountOfAliveStacks(); j > 0; j--)
@@ -35,12 +35,12 @@ namespace game
 
                             return attackedStacks;
                         }
-                        else {*/
+                        else {
                             BattleUnitsStack attackedStack = attackedArmy.AliveStackAt(i);
                             Attack(currentBattleStack.Item1, attackedArmy.AliveStackAt(i)); 
                             return new List<BattleUnitsStack>(){ attackedStack };
-                        //}
-                        //механика ударить всех
+                        }
+                        
                         
                     }
                 }
@@ -73,6 +73,7 @@ namespace game
         }
         public void Attack(BattleUnitsStack attacking, BattleUnitsStack attacked)
         {
+            // точный выстрел надо сделать броню = 0, после расчета демеджа вернуть на исходную.
             int damage = Damage(attacking, attacked);
             int dead = attacked.Amount;
             if (damage < attacked.Hp)
@@ -82,18 +83,15 @@ namespace game
             }
             else
             {
-                attacked.Hp = 0;//-= damage
+                attacked.Hp = 0;
             }
 
             Console.WriteLine($"{attacking.UnitType.Name} make {damage} damage to {attacked.UnitType.Name}, {dead} dead");
 
-            bool enemyDoesNotRespond = false;
-            //модификаторы на ответ
 
-            if (!attacked.HasRespondThisTurn && attacked.IsAlive && !enemyDoesNotRespond)
+            if (!attacked.HasRespondThisTurn && attacked.IsAlive && !attacking.EnemyDoesNotRespond)
             {
                 attacked.HasRespondThisTurn = true;
-                //вернуть false если есть бесконечный отпор
                 int damageOfRespond = Damage(attacked, attacking);
                 dead = attacking.Amount;
                 if (damageOfRespond < attacking.Hp)
@@ -103,7 +101,7 @@ namespace game
                 }
                 else
                 {
-                    attacking.Hp = 0; //-= damageOfRespond
+                    attacking.Hp = 0;
                 }
                 Console.WriteLine($"{attacked.UnitType.Name} make {damageOfRespond} damage to {attacking.UnitType.Name} in return, {dead} dead");
 

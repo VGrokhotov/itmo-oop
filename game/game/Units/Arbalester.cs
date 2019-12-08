@@ -7,7 +7,7 @@ namespace game.Units
     {
         public Arbalester() : base("Arbalester", 10, 4, 4, (2, 8), 8)
         {
-            //congenitalEffects.Add(TypeOfEffect.Archer);
+            congenitalEffects.Add(new Archer());
             //congenitalEffects.Add(TypeOfEffect.AccurateShot);
         }
     }

@@ -7,7 +7,7 @@ namespace game.Units
     {
         public Cyclops() : base("Cyclops", 85, 20, 15, damage: (18, 26), 10)
         {
-            this.accessibleMagic.Add(new Attenuation());
+            this.accessibleMagic.Add(Attenuation.GetInstance());
         }
     }
 }
