@@ -43,7 +43,11 @@ namespace game.BattleArmyClasses
                 else
                 {
                     if (effect.Item2 == -1)
+                    {
                         temp.Add((effect.Item1, effect.Item2));
+                        effect.Item1.Modify(CurrentBattleUnitsStack);
+                    }
+                        
                     else 
                         effect.Item1.Unmodify(CurrentBattleUnitsStack);
                 }
@@ -175,5 +179,27 @@ namespace game.BattleArmyClasses
 
         public override void Unmodify(BattleUnitsStack currentBattleUnitsStack) { }
     }
-    
+
+    public class BeatAll : TypeOfEffect
+    {
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
+        {
+            currentBattleUnitsStack.BeatAll = true;
+        }
+
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack) { }
+    }
+
+    public class DecreasedInitiative : TypeOfEffect
+    {
+        public override void Modify(BattleUnitsStack currentBattleUnitsStack)
+        {
+            currentBattleUnitsStack.BattleUnit.whiteInitiative /= 1.4;
+        }
+
+        public override void Unmodify(BattleUnitsStack currentBattleUnitsStack)
+        {
+            currentBattleUnitsStack.BattleUnit.whiteInitiative *= 1.4;
+        }
+    }
 }

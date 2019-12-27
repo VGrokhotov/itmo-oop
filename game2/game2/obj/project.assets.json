@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenonvo\\Documents\\itmo-oop\\game2\\game2\\game2.csproj",
-      "projectName": "game2",
-      "projectPath": "C:\\Users\\Lenonvo\\Documents\\itmo-oop\\game2\\game2\\game2.csproj",
+      "projectUniqueName": "C:\\Users\\Lenonvo\\Documents\\itmo-oop\\game2\\game2\\mod1.csproj",
+      "projectName": "mod1",
+      "projectPath": "C:\\Users\\Lenonvo\\Documents\\itmo-oop\\game2\\game2\\mod1.csproj",
       "packagesPath": "C:\\Users\\Lenonvo\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Lenonvo\\Documents\\itmo-oop\\game2\\game2\\obj\\",
       "projectStyle": "PackageReference",

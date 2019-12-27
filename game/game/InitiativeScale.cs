@@ -7,11 +7,15 @@ namespace game
     {
         public List<(BattleUnitsStack, TypeOfArmy)> Scale;
         public List<(BattleUnitsStack, TypeOfArmy)> WaitScale;
+        private string firstPlayerName;
+        private string secondPlayerName;
 
-        public InitiativeScale()
+        public InitiativeScale(string firstPlName, string secondPlName)
         {
             Scale = new List<(BattleUnitsStack, TypeOfArmy)>();
             WaitScale = new List<(BattleUnitsStack, TypeOfArmy)>();
+            firstPlayerName = firstPlName;
+            secondPlayerName = secondPlName;
         }
         public void MakeInitiativeScale(BattleArmy firstBattleArmy, BattleArmy secondBattleArmy)
         {
@@ -72,12 +76,14 @@ namespace game
             string result = "Initiative Scale:\n";
             foreach (var stack in Scale)
             {
-                result += $"Army: {stack.Item2}, {stack.Item1}";
+                string armyName = stack.Item2 == TypeOfArmy.First ? firstPlayerName : secondPlayerName;
+                result += $"Army of {armyName}, {stack.Item1}";
             }
             result += "Initiative Wait Scale:\n";
             foreach (var stack in WaitScale)
             {
-                result += $"Army: {stack.Item2}, {stack.Item1}";
+                string armyName = stack.Item2 == TypeOfArmy.First ? firstPlayerName : secondPlayerName;
+                result += $"Army of {armyName}, {stack.Item1}";
             }
 
             return result;

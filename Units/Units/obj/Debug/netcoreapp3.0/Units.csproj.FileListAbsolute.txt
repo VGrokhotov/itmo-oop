@@ -1,0 +1,10 @@
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\obj\Debug\netcoreapp3.0\Units.csprojAssemblyReference.cache
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\obj\Debug\netcoreapp3.0\Units.AssemblyInfoInputs.cache
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\obj\Debug\netcoreapp3.0\Units.AssemblyInfo.cs
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\bin\Debug\netcoreapp3.0\Units.deps.json
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\bin\Debug\netcoreapp3.0\Units.dll
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\bin\Debug\netcoreapp3.0\Units.pdb
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\bin\Debug\netcoreapp3.0\game.dll
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\obj\Debug\netcoreapp3.0\Units.csproj.CopyComplete
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\obj\Debug\netcoreapp3.0\Units.dll
+C:\Users\Lenonvo\Documents\itmo-oop\Units\Units\obj\Debug\netcoreapp3.0\Units.pdb

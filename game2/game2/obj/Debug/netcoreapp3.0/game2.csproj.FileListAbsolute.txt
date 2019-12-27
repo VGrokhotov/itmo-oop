@@ -1,7 +1,4 @@
-C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.exe
 C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.deps.json
-C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.runtimeconfig.json
-C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.runtimeconfig.dev.json
 C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.dll
 C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game2.pdb
 C:\Users\Lenonvo\Documents\itmo-oop\game2\game2\bin\Debug\netcoreapp3.0\game.dll

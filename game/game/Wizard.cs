@@ -43,11 +43,11 @@ namespace game
                                 else
                                     toWhatArmyUseMagic = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy : SecondBattleArmy;
                                 Console.WriteLine($"You can now use {ChosenMagic} to following stacks from ");
-                                //нужно вызывать не живые стаки, а все, если выбрали возраждене
-                                if (ChosenMagic.GetType() == Resurrection.GetInstance().GetType())
+                                if (ChosenMagic.toWhatStacksCanCast == ToWhatStacksCanCast.All)
                                     Console.WriteLine(toWhatArmyUseMagic);
                                 else
                                     Console.WriteLine(toWhatArmyUseMagic.AliveStacks());
+
                                 Console.WriteLine("Enter the index of stack you wanna wiz");
                                 while (true)
                                 {
@@ -56,7 +56,7 @@ namespace game
                                         Console.WriteLine("Incorrect input, try again");
                                     else
                                     {
-                                        if (ChosenMagic.GetType() == Resurrection.GetInstance().GetType())
+                                        if (ChosenMagic.toWhatStacksCanCast == ToWhatStacksCanCast.All)
                                         {
                                             if (j < 1 || j > toWhatArmyUseMagic.StacksList.Count)
                                                 Console.WriteLine("Incorrect input, try again");
@@ -102,10 +102,17 @@ namespace game
         Allied,//союзная
         Enemy//вражеская
     }
+    public enum ToWhatStacksCanCast
+    {
+        Alive,
+        All
+    }
 
     public abstract class TypeOfMagic
     {
         public ToWhatArmyCasts toWhatArmyCasts;
+
+        public ToWhatStacksCanCast toWhatStacksCanCast;
         public abstract void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target);
 
     }
@@ -113,7 +120,12 @@ namespace game
     public class PunishingStrike : TypeOfMagic
     {
         private static PunishingStrike Instance;
-        private PunishingStrike() { toWhatArmyCasts = ToWhatArmyCasts.Allied; }
+
+        private PunishingStrike()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Allied;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
 
         public static PunishingStrike GetInstance()
         {
@@ -139,7 +151,12 @@ namespace game
     public class Curse : TypeOfMagic
     {
         private static Curse Instance;
-        private Curse() { toWhatArmyCasts = ToWhatArmyCasts.Enemy; }
+
+        private Curse()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Enemy;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
 
         public static Curse GetInstance()
         {
@@ -165,7 +182,12 @@ namespace game
     public class Attenuation : TypeOfMagic
     {
         private static Attenuation Instance;
-        private Attenuation() { toWhatArmyCasts = ToWhatArmyCasts.Enemy; }
+
+        private Attenuation()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Enemy;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
 
         public static Attenuation GetInstance()
         {
@@ -190,7 +212,12 @@ namespace game
     public class Acceleration : TypeOfMagic
     {
         private static Acceleration Instance;
-        private Acceleration() { toWhatArmyCasts = ToWhatArmyCasts.Allied; }
+
+        private Acceleration()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Allied;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
 
         public static Acceleration GetInstance()
         {
@@ -215,7 +242,12 @@ namespace game
     public class Resurrection : TypeOfMagic
     {
         private static Resurrection Instance;
-        private Resurrection() { toWhatArmyCasts = ToWhatArmyCasts.Allied; }
+
+        private Resurrection()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Allied;
+            toWhatStacksCanCast = ToWhatStacksCanCast.All;
+        }
 
         public static Resurrection GetInstance()
         {
@@ -265,6 +297,36 @@ namespace game
         public override string ToString()
         {
             return "Resurrection";
+        }
+    }
+
+    public class Slowdown : TypeOfMagic
+    {
+        private static Slowdown Instance;
+
+        private Slowdown()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Enemy;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
+
+        public static Slowdown GetInstance()
+        {
+            if (Slowdown.Instance == null)
+            {
+                Slowdown.Instance = new Slowdown();
+            }
+
+            return Slowdown.Instance;
+        }
+
+        public override void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target)
+        {
+            target.Effects.Add((new DecreasedInitiative(), 3));
+        }
+        public override string ToString()
+        {
+            return "Slowdown";
         }
     }
 }
