@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using game;
 using game.MarchingArmy;
 
-namespace FinalProject
+namespace game
 {
     public class ArmyBuilder
     {

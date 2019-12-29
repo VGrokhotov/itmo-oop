@@ -62,6 +62,18 @@ namespace game
 
         public void StartBattle()
         {
+            Console.WriteLine($"Welcome to battle, {FirstBattleArmy.ArmyName} and {SecondBattleArmy.ArmyName}.");
+            Console.WriteLine("Let explain you rules of the battle:");
+            Console.WriteLine("[1] Every unit can attack any unit from enemy army ones a turn");
+            Console.WriteLine("[2] Some units can wiz");
+            Console.WriteLine("[3] Every unit can do nothing during its turn and just defend");
+            Console.WriteLine("[4] The turn of moves is built on the units' initiative");
+            Console.WriteLine("[5] Once a turn unit can wait");
+            Console.WriteLine("[6] You can look trough your and enemy army on your unit turn");
+            Console.WriteLine("[7] Also, any player can give up on his or her unit turn");
+            Console.WriteLine("Now we can start. Press Enter to continue...");
+            Console.ReadLine();
+
             bool flag = false;
             while (!HasBattleEnded)
             {
@@ -76,7 +88,7 @@ namespace game
                     Console.WriteLine(Scale);
                     string name = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army of {name}\n");
-                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Wait\n[5] Give up\n");
+                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Wait\n[5] Give up\n[6] Show armies\n");
                     string action = Console.ReadLine();
                     bool HasActionChosen = false;
                     while (!HasActionChosen)
@@ -133,6 +145,17 @@ namespace game
                                 Console.WriteLine("Press Enter to continue...");
                                 Console.ReadLine();
                                 break;
+                            case "6":
+                                HasActionChosen = true;
+                                Console.WriteLine("You chose \"Show armies\"\n");
+                                Console.WriteLine("Press Enter to continue...");
+                                Console.ReadLine();
+                                Console.Clear();
+                                Console.WriteLine(FirstBattleArmy.AliveStacks()+"\n");
+                                Console.WriteLine(SecondBattleArmy.AliveStacks());
+                                Console.WriteLine("Press Enter to continue...");
+                                Console.ReadLine();
+                                break;
                             default:
                                 Console.WriteLine("Incorrect command, try again");
                                 action = Console.ReadLine();
@@ -160,7 +183,7 @@ namespace game
                     string name = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
 
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
-                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Give up\n");
+                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Give up\n[5] Show armies\n");
                     string action = Console.ReadLine();
                     bool HasActionChosen = false;
                     while (!HasActionChosen)
@@ -206,6 +229,17 @@ namespace game
                                 //Scale.WaitScale.RemoveAt(0);
                                 Console.WriteLine("You chose \"Give up\"\n");
                                 GiveUp(currentBattleStack);
+                                Console.WriteLine("Press Enter to continue...");
+                                Console.ReadLine();
+                                break;
+                            case "5":
+                                HasActionChosen = true;
+                                Console.WriteLine("You chose \"Show armies\"\n");
+                                Console.WriteLine("Press Enter to continue...");
+                                Console.ReadLine();
+                                Console.Clear();
+                                Console.WriteLine(FirstBattleArmy.AliveStacks() + "\n");
+                                Console.WriteLine(SecondBattleArmy.AliveStacks());
                                 Console.WriteLine("Press Enter to continue...");
                                 Console.ReadLine();
                                 break;

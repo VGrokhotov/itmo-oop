@@ -14,14 +14,14 @@ namespace FinalProject
         static void Main(string[] args)
         {
             string PATH = @"C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\Mods";
-            List<Unit> lol = new List<Unit>();
+            List<Unit> availableUnits = new List<Unit>();
             foreach (var path in Directory.GetFiles(PATH))
             {
                 Assembly.LoadFile(path).GetTypes()
                     .Where(x => x.IsSubclassOf(typeof(Unit)))
-                    .Select(x => (Unit) Activator.CreateInstance(x)).ToList().ForEach(x => lol.Add(x));
+                    .Select(x => (Unit) Activator.CreateInstance(x)).ToList().ForEach(x => availableUnits.Add(x));
             }
-            lol = lol.Select(x => x).OrderBy(x => x.Name).ToList();
+            availableUnits = availableUnits.Select(x => x).OrderBy(x => x.Name).ToList();
 
             //lol.Select(x => (x.Name)).ToList().ForEach(x => Console.Write(x+"\n"));
 
@@ -31,10 +31,15 @@ namespace FinalProject
             string firstPlayerName = Console.ReadLine();
             Console.WriteLine("Second player, please, enter your name:");
             string secondPlayerName = Console.ReadLine();
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
+
+            InformationManager infoManager = new InformationManager(availableUnits);
+            infoManager.getAllInfo();
 
             Console.WriteLine("Let's make your armies! Press Enter to continue...");
             Console.ReadLine();
-            ArmyBuilder armyBuilder = new ArmyBuilder(lol);
+            ArmyBuilder armyBuilder = new ArmyBuilder(availableUnits);
             Army firstArmy = armyBuilder.MakeArmy(firstPlayerName);
             Army secondArmy = armyBuilder.MakeArmy(secondPlayerName);
 
