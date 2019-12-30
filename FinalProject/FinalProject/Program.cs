@@ -23,7 +23,6 @@ namespace FinalProject
             }
             availableUnits = availableUnits.Select(x => x).OrderBy(x => x.Name).ToList();
 
-            //lol.Select(x => (x.Name)).ToList().ForEach(x => Console.Write(x+"\n"));
 
             Console.WriteLine("Welcome to the greatest game of the greatest!");
             Console.WriteLine("Just let's start!");
@@ -43,7 +42,7 @@ namespace FinalProject
             Army firstArmy = armyBuilder.MakeArmy(firstPlayerName);
             Army secondArmy = armyBuilder.MakeArmy(secondPlayerName);
 
-            Battle game = new Battle(firstArmy, firstPlayerName, secondArmy, secondPlayerName);
+            Battle game = new Battle(firstArmy, firstPlayerName, secondArmy, secondPlayerName, infoManager);
             Console.WriteLine("Armies are equipped.\nPress Enter to start battle!");
             Console.ReadLine();
             game.StartBattle();

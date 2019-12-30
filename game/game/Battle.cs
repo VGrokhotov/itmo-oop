@@ -14,6 +14,9 @@ namespace game
         private Attacker Attacker;
         private Wizard Wizard;
         private string reason;
+
+        private InformationManager infoManager;
+
         private bool HasBattleEnded => !FirstBattleArmy.IsArmyAlive() || !SecondBattleArmy.IsArmyAlive() || Winner != null;
 
 
@@ -51,13 +54,14 @@ namespace game
 
 
 
-        public Battle(Army firstArmy, string firstArmyName,  Army secondArmy, string secondArmyName)
+        public Battle(Army firstArmy, string firstArmyName,  Army secondArmy, string secondArmyName, InformationManager InfoManager)
         {
             this.FirstBattleArmy = new BattleArmy(firstArmy, firstArmyName);
             this.SecondBattleArmy = new BattleArmy(secondArmy, secondArmyName);
             Scale = new InitiativeScale(FirstBattleArmy.ArmyName, SecondBattleArmy.ArmyName);
             Attacker = new Attacker();
             Wizard = new Wizard();
+            infoManager = InfoManager;
         }
 
         public void StartBattle()
@@ -88,7 +92,7 @@ namespace game
                     Console.WriteLine(Scale);
                     string name = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army of {name}\n");
-                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Wait\n[5] Give up\n[6] Show armies\n");
+                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Wait\n[5] Give up\n[6] Show armies\n[7] Learn units info\n");
                     string action = Console.ReadLine();
                     bool HasActionChosen = false;
                     while (!HasActionChosen)
@@ -156,6 +160,14 @@ namespace game
                                 Console.WriteLine("Press Enter to continue...");
                                 Console.ReadLine();
                                 break;
+                            case "7":
+                                HasActionChosen = true;
+                                Console.WriteLine("You chose \"Learn units info\"\n");
+                                Console.WriteLine("Press Enter to continue...");
+                                Console.ReadLine();
+                                Console.Clear();
+                                infoManager.getAllInfo();
+                                break;
                             default:
                                 Console.WriteLine("Incorrect command, try again");
                                 action = Console.ReadLine();
@@ -183,7 +195,7 @@ namespace game
                     string name = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy.ArmyName : SecondBattleArmy.ArmyName;
 
                     Console.WriteLine($"Now is turn of: {currentBattleStack.Item1} from Army {name}\n");
-                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Give up\n[5] Show armies\n");
+                    Console.WriteLine("Choose one of possible actions:\n[1] Attack\n[2] Defend\n[3] Wiz\n[4] Give up\n[5] Show armies\n[6] Learn units info\n");
                     string action = Console.ReadLine();
                     bool HasActionChosen = false;
                     while (!HasActionChosen)
@@ -242,6 +254,14 @@ namespace game
                                 Console.WriteLine(SecondBattleArmy.AliveStacks());
                                 Console.WriteLine("Press Enter to continue...");
                                 Console.ReadLine();
+                                break;
+                            case "6":
+                                HasActionChosen = true;
+                                Console.WriteLine("You chose \"Learn units info\"\n");
+                                Console.WriteLine("Press Enter to continue...");
+                                Console.ReadLine();
+                                Console.Clear();
+                                infoManager.getAllInfo();
                                 break;
                             default:
                                 Console.WriteLine("Incorrect command, try again");
