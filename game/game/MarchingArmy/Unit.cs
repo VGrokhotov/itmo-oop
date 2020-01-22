@@ -12,6 +12,17 @@ namespace game.MarchingArmy
         public (uint, uint) Damage { get; }
         public double Initiative { get; }
 
+        public string GetAllInformation()
+        {
+            string result = $"Information about unit {Name}:\n";
+            result += $"Hit Points: {HitPoints}\n";
+            result += $"Attack: {Attack}\n";
+            result += $"Defence: {Defence}\n";
+            result += $"Damage: {Damage.Item1} - {Damage.Item2}\n";
+            result += $"Initiative: {Initiative}\n";
+            return result;
+        }
+
         protected List<TypeOfMagic> accessibleMagic;
 
         public List<TypeOfMagic> AccessibleMagic
@@ -43,7 +54,7 @@ namespace game.MarchingArmy
             this.HitPoints = hitPoints;
             this.Attack = attack;
             this.Defence = defence;
-            this.Damage = damage;
+            this.Damage = damage.Item1 <= damage.Item2 ? damage : (damage.Item2, damage.Item1);
             this.Initiative = initiative;
             accessibleMagic = new List<TypeOfMagic>();
             congenitalEffects = new List<TypeOfEffect>();

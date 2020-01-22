@@ -1,0 +1,13 @@
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\bin\Debug\netcoreapp3.0\FinalProject.exe
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\bin\Debug\netcoreapp3.0\FinalProject.deps.json
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\bin\Debug\netcoreapp3.0\FinalProject.runtimeconfig.json
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\bin\Debug\netcoreapp3.0\FinalProject.runtimeconfig.dev.json
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\bin\Debug\netcoreapp3.0\FinalProject.dll
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\bin\Debug\netcoreapp3.0\FinalProject.pdb
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\bin\Debug\netcoreapp3.0\game.dll
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\obj\Debug\netcoreapp3.0\FinalProject.csprojAssemblyReference.cache
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\obj\Debug\netcoreapp3.0\FinalProject.AssemblyInfoInputs.cache
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\obj\Debug\netcoreapp3.0\FinalProject.AssemblyInfo.cs
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\obj\Debug\netcoreapp3.0\FinalProject.csproj.CopyComplete
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\obj\Debug\netcoreapp3.0\FinalProject.dll
+C:\Users\Lenonvo\Documents\itmo-oop\FinalProject\FinalProject\obj\Debug\netcoreapp3.0\FinalProject.pdb

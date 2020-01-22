@@ -58,7 +58,7 @@ namespace game.BattleArmyClasses
 
         public string AliveStacks()
         {
-            string result = $"Army {ArmyName} :\n";
+            string result = $"Army of {ArmyName} :\n";
             int i = 1;
             foreach (var stack in StacksList)
             {
@@ -113,7 +113,7 @@ namespace game.BattleArmyClasses
         }
         public override string ToString()
         {
-            string result = $"Army {ArmyName} :\n";
+            string result = $"Army of {ArmyName} :\n";
             int i = 1;
             foreach (var stack in _stacksList)
             {

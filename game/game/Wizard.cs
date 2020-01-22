@@ -6,6 +6,7 @@ namespace game
 {
     public class Wizard
     {
+        public TypeOfMagic ChosenMagic;
         public bool Wiz((BattleUnitsStack, TypeOfArmy) currentBattleStack, BattleArmy FirstBattleArmy, BattleArmy SecondBattleArmy, List<(BattleUnitsStack, TypeOfArmy)> Scale)
         {
             if (currentBattleStack.Item1.AmountOfAvailableMagic() > 0)
@@ -32,21 +33,21 @@ namespace game
                             {
                                 
                                 Scale.RemoveAt(0);
-                                TypeOfMagic chosenMagic = currentBattleStack.Item1.AvailableMagicAt(i);
-                                Console.WriteLine($"You chose {chosenMagic}");
-                                currentBattleStack.Item1.BunToWiz(chosenMagic);
+                                ChosenMagic = currentBattleStack.Item1.AvailableMagicAt(i);
+                                Console.WriteLine($"You chose {ChosenMagic}");
+                                currentBattleStack.Item1.BunToWiz(ChosenMagic);
 
                                 BattleArmy toWhatArmyUseMagic;
-                                if (chosenMagic == TypeOfMagic.Curse || chosenMagic == TypeOfMagic.Attenuation)
+                                if (ChosenMagic.toWhatArmyCasts == ToWhatArmyCasts.Enemy)
                                     toWhatArmyUseMagic = currentBattleStack.Item2 == TypeOfArmy.First ? SecondBattleArmy : FirstBattleArmy;
                                 else
                                     toWhatArmyUseMagic = currentBattleStack.Item2 == TypeOfArmy.First ? FirstBattleArmy : SecondBattleArmy;
-                                Console.WriteLine($"You can now use {chosenMagic} to following stacks from ");
-                                //нужно вызывать не живые стаки, а все, если выбрали возраждене
-                                if (chosenMagic == TypeOfMagic.Resurrection)
+                                Console.WriteLine($"You can now use {ChosenMagic} to following stacks from ");
+                                if (ChosenMagic.toWhatStacksCanCast == ToWhatStacksCanCast.All)
                                     Console.WriteLine(toWhatArmyUseMagic);
                                 else
                                     Console.WriteLine(toWhatArmyUseMagic.AliveStacks());
+
                                 Console.WriteLine("Enter the index of stack you wanna wiz");
                                 while (true)
                                 {
@@ -55,14 +56,14 @@ namespace game
                                         Console.WriteLine("Incorrect input, try again");
                                     else
                                     {
-                                        if (chosenMagic == TypeOfMagic.Resurrection)
+                                        if (ChosenMagic.toWhatStacksCanCast == ToWhatStacksCanCast.All)
                                         {
                                             if (j < 1 || j > toWhatArmyUseMagic.StacksList.Count)
                                                 Console.WriteLine("Incorrect input, try again");
                                             else
                                             {
                                                 BattleUnitsStack toWhatStackUseMagic = toWhatArmyUseMagic.StacksList[j-1];
-                                                Resurrection(toWhatStackUseMagic, currentBattleStack.Item1);
+                                                ChosenMagic.Wiz(currentBattleStack.Item1, toWhatStackUseMagic);
                                                 break;
                                             }
                                         }
@@ -72,27 +73,8 @@ namespace game
                                                 Console.WriteLine("Incorrect input, try again");
                                             else
                                             {
-                                                BattleUnitsStack toWhatStackUseMagic =
-                                                    toWhatArmyUseMagic.AliveStackAt(j);
-                                                switch (chosenMagic)
-                                                {
-                                                    /*case TypeOfMagic.Resurrection:
-                                                        Resurrection(toWhatStackUseMagic, currentBattleStack.Item1);
-                                                        break;*/
-                                                    case TypeOfMagic.Acceleration:
-                                                        Acceleration(toWhatStackUseMagic);
-                                                        break;
-                                                    case TypeOfMagic.Attenuation:
-                                                        Attenuation(toWhatStackUseMagic);
-                                                        break;
-                                                    case TypeOfMagic.PunishingStrike:
-                                                        PunishingStrike(toWhatStackUseMagic);
-                                                        break;
-                                                    case TypeOfMagic.Curse:
-                                                        Curse(toWhatStackUseMagic);
-                                                        break;
-                                                }
-
+                                                BattleUnitsStack toWhatStackUseMagic = toWhatArmyUseMagic.AliveStackAt(j);
+                                                ChosenMagic.Wiz(currentBattleStack.Item1, toWhatStackUseMagic);
                                                 break;
                                             }
                                         }
@@ -101,7 +83,7 @@ namespace game
 
                                 return true;
                             }
-                            break;
+                            //break;
                         }
                     }
                 }
@@ -113,26 +95,174 @@ namespace game
                 return false;
             }
         }
-        public void PunishingStrike(BattleUnitsStack currentBattleUnitsStack)
+    }
+
+    public enum ToWhatArmyCasts
+    {
+        Allied,//союзная
+        Enemy//вражеская
+    }
+    public enum ToWhatStacksCanCast
+    {
+        Alive,
+        All
+    }
+
+    public abstract class TypeOfMagic
+    {
+        public ToWhatArmyCasts toWhatArmyCasts;
+
+        public ToWhatStacksCanCast toWhatStacksCanCast;
+        public abstract void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target);
+
+    }
+
+    public class PunishingStrike : TypeOfMagic
+    {
+        private static PunishingStrike Instance;
+
+        private PunishingStrike()
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.IncreasedAttack, 3));
+            toWhatArmyCasts = ToWhatArmyCasts.Allied;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
         }
-        public void  Curse(BattleUnitsStack currentBattleUnitsStack)
+
+        public static PunishingStrike GetInstance()
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.DecreasedAttack, 3));
+            if (Instance == null)
+            {
+                Instance = new PunishingStrike();
+            }
+
+            return Instance;
         }
-        public void Attenuation(BattleUnitsStack currentBattleUnitsStack)
+
+        public override void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target)
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.DecreasedDefence, 5));
+            target.Effects.Add((new IncreasedAttack(), 3));
         }
-        public void Acceleration(BattleUnitsStack currentBattleUnitsStack)
+
+        public override string ToString()
         {
-            currentBattleUnitsStack.Effects.Add((TypeOfEffect.IncreasedInitiative, 3));
+            return "PunishingStrike";
         }
-        public void Resurrection(BattleUnitsStack currentBattleUnitsStack, BattleUnitsStack whoHeal)
+    }
+
+    public class Curse : TypeOfMagic
+    {
+        private static Curse Instance;
+
+        private Curse()
         {
-            int healing =  whoHeal.Amount;
-            switch (whoHeal.UnitType.Name)
+            toWhatArmyCasts = ToWhatArmyCasts.Enemy;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
+
+        public static Curse GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new Curse();
+            }
+
+            return Instance;
+        }
+
+
+        public override void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target)
+        {
+            target.Effects.Add((new DecreasedAttack(), 3));
+        }
+        public override string ToString()
+        {
+            return "Curse";
+        }
+    }
+
+    public class Attenuation : TypeOfMagic
+    {
+        private static Attenuation Instance;
+
+        private Attenuation()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Enemy;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
+
+        public static Attenuation GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new Attenuation();
+            }
+
+            return Instance;
+        }
+
+        public override void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target)
+        {
+            target.Effects.Add((new DecreasedDefence(), 5));
+        }
+        public override string ToString()
+        {
+            return "Attenuation";
+        }
+    }
+
+    public class Acceleration : TypeOfMagic
+    {
+        private static Acceleration Instance;
+
+        private Acceleration()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Allied;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
+
+        public static Acceleration GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new Acceleration();
+            }
+
+            return Instance;
+        }
+
+        public override void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target)
+        {
+            target.Effects.Add((new IncreasedInitiative(), 3));
+        }
+        public override string ToString()
+        {
+            return "Acceleration";
+        }
+    }
+
+    public class Resurrection : TypeOfMagic
+    {
+        private static Resurrection Instance;
+
+        private Resurrection()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Allied;
+            toWhatStacksCanCast = ToWhatStacksCanCast.All;
+        }
+
+        public static Resurrection GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new Resurrection();
+            }
+
+            return Instance;
+        }
+
+        public override void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target)
+        {
+            int healing = wizStack.Amount;
+            switch (wizStack.UnitType.Name)
             {
                 case "Angel":
                     healing *= Config.ANGEL_HEALING;
@@ -146,31 +276,57 @@ namespace game
             }
 
             int amountBeforeHealing;
-            int startHp = currentBattleUnitsStack.StartAmount * (int)currentBattleUnitsStack.UnitType.HitPoints;
-            if (currentBattleUnitsStack.Hp < 0)
+            int startHp = target.StartAmount * (int)target.UnitType.HitPoints;
+            if (target.Hp < 0)
             {
-                currentBattleUnitsStack.Hp = 0;
+                target.Hp = 0;
                 amountBeforeHealing = 0;
             }
             else
             {
-                amountBeforeHealing = currentBattleUnitsStack.Amount;
+                amountBeforeHealing = target.Amount;
             }
 
-            if (healing + currentBattleUnitsStack.Hp >= startHp)
-                currentBattleUnitsStack.Hp = startHp;
+            if (healing + target.Hp >= startHp)
+                target.Hp = startHp;
             else
-                currentBattleUnitsStack.Hp += healing;
-            Console.WriteLine($"{currentBattleUnitsStack.Amount - amountBeforeHealing} {currentBattleUnitsStack.UnitType.Name} has been returned");
+                target.Hp += healing;
+            Console.WriteLine($"{target.Amount - amountBeforeHealing} {target.UnitType.Name} has been returned");
+        }
+
+        public override string ToString()
+        {
+            return "Resurrection";
         }
     }
 
-    public enum TypeOfMagic
+    public class Slowdown : TypeOfMagic
     {
-        PunishingStrike,
-        Curse,//проклятие
-        Attenuation,//ослабление
-        Acceleration,
-        Resurrection//воскрешение
+        private static Slowdown Instance;
+
+        private Slowdown()
+        {
+            toWhatArmyCasts = ToWhatArmyCasts.Enemy;
+            toWhatStacksCanCast = ToWhatStacksCanCast.Alive;
+        }
+
+        public static Slowdown GetInstance()
+        {
+            if (Slowdown.Instance == null)
+            {
+                Slowdown.Instance = new Slowdown();
+            }
+
+            return Slowdown.Instance;
+        }
+
+        public override void Wiz(BattleUnitsStack wizStack, BattleUnitsStack target)
+        {
+            target.Effects.Add((new DecreasedInitiative(), 3));
+        }
+        public override string ToString()
+        {
+            return "Slowdown";
+        }
     }
 }

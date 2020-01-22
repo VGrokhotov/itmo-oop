@@ -24,7 +24,7 @@ namespace game
                         Console.WriteLine("Incorrect input, try again");
                     else
                     {
-                        if (currentBattleStack.Item1.Effects.IsEffectApplied(TypeOfEffect.BeatAll))
+                        if (currentBattleStack.Item1.BeatAll == true)
                         {
                             List<BattleUnitsStack> attackedStacks = new List<BattleUnitsStack>();
                             for (int j = attackedArmy.AmountOfAliveStacks(); j > 0; j--)
@@ -39,8 +39,8 @@ namespace game
                             BattleUnitsStack attackedStack = attackedArmy.AliveStackAt(i);
                             Attack(currentBattleStack.Item1, attackedArmy.AliveStackAt(i)); 
                             return new List<BattleUnitsStack>(){ attackedStack };
-
                         }
+                        
                         
                     }
                 }
@@ -48,52 +48,32 @@ namespace game
         }
         public int Damage(BattleUnitsStack attackingBUS, BattleUnitsStack attackedBUS)
         {
-            int IncreasedAttack = 0;
-            int DecreasedAttack = 0;
-            int DecreasedDefence = 0;
-            int MultiplierOfDefence = 1;
-            double IsDefend = 1;
-            foreach (var effect in attackingBUS.Effects.AllEffects)
-            {
-                if (effect.Item1 == TypeOfEffect.DecreasedAttack)
-                    DecreasedAttack = (int)Config.DECREASED_ATTACK;
-                if (effect.Item1 == TypeOfEffect.IncreasedAttack)
-                    IncreasedAttack = (int)Config.INCREASED_ATTACK;
-                if (effect.Item1 == TypeOfEffect.AccurateShot)
-                    MultiplierOfDefence = 0;
-            }
-            foreach (var effect in attackedBUS.Effects.AllEffects)
-            {
-                if (effect.Item1 == TypeOfEffect.DecreasedDefence)
-                    DecreasedDefence = (int)Config.DECREASED_DEFENCE;
-                if (effect.Item1 == TypeOfEffect.IsDefends)
-                    IsDefend = Config.IS_DEFEND;
-            }
             double damage1;
             double damage2;
-            double attack = (int)attackingBUS.UnitType.Attack - DecreasedAttack + IncreasedAttack;
-            double defence = ((int)attackedBUS.UnitType.Defence - DecreasedDefence) * IsDefend * MultiplierOfDefence;
+            double attack = attackingBUS.BattleUnit.Attack;
+            double defence = attackedBUS.BattleUnit.Defence;
             if (attack < 0)
                 attack = 0;
             if (defence < 0)
                 defence = 0;
             if (attack > defence)
             {
-                damage1 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item1 * (1 + 0.05 * (attack - defence));
-                damage2 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item2 * (1 + 0.05 * (attack - defence));
+                damage1 = attackingBUS.Amount * attackingBUS.BattleUnit.Damage1 * (1 + 0.05 * (attack - defence));
+                damage2 = attackingBUS.Amount * attackingBUS.BattleUnit.Damage2 * (1 + 0.05 * (attack - defence));
             }
             else
             {
-                damage1 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item1 / (1 + 0.05 * (defence - attack));
-                damage2 = attackingBUS.Amount * (int)attackingBUS.UnitType.Damage.Item2 / (1 + 0.05 * (defence - attack));
+                damage1 = attackingBUS.Amount * attackingBUS.BattleUnit.Damage1 / (1 + 0.05 * (defence - attack));
+                damage2 = attackingBUS.Amount * attackingBUS.BattleUnit.Damage2 / (1 + 0.05 * (defence - attack));
             }
-            if (attackingBUS.UnitType.Damage.Item1 == attackingBUS.UnitType.Damage.Item2)
+            if (attackingBUS.BattleUnit.Damage1 == attackingBUS.BattleUnit.Damage2)
                 return (int)Math.Floor(damage2);
             Random rnd = new Random();
             return rnd.Next((int)Math.Ceiling(damage1), (int)Math.Floor(damage2));
         }
         public void Attack(BattleUnitsStack attacking, BattleUnitsStack attacked)
         {
+            // точный выстрел надо сделать броню = 0, после расчета демеджа вернуть на исходную.
             int damage = Damage(attacking, attacked);
             int dead = attacked.Amount;
             if (damage < attacked.Hp)
@@ -103,31 +83,15 @@ namespace game
             }
             else
             {
-                attacked.Hp = 0;//-= damage
+                attacked.Hp = 0;
             }
 
             Console.WriteLine($"{attacking.UnitType.Name} make {damage} damage to {attacked.UnitType.Name}, {dead} dead");
 
-            bool enemyDoesNotRespond = false;
-            foreach (var effect in attacking.Effects.AllEffects)
-            {
-                if (effect.Item1 == TypeOfEffect.EnemyDoesNotRespond || effect.Item1 == TypeOfEffect.Archer )
-                    enemyDoesNotRespond = true;
-            }
-            foreach (var effect in attacked.Effects.AllEffects)
-            {
-                if (effect.Item1 == TypeOfEffect.Archer)
-                    enemyDoesNotRespond = true;
-            }
 
-            if (!attacked.HasRespondThisTurn && attacked.IsAlive && !enemyDoesNotRespond)
+            if (!attacked.HasRespondThisTurn && attacked.IsAlive && !attacking.EnemyDoesNotRespond)
             {
                 attacked.HasRespondThisTurn = true;
-                foreach (var effect in attacked.Effects.AllEffects)
-                {
-                    if (effect.Item1 == TypeOfEffect.EndlessRebuff)
-                        attacked.HasRespondThisTurn = false;
-                }
                 int damageOfRespond = Damage(attacked, attacking);
                 dead = attacking.Amount;
                 if (damageOfRespond < attacking.Hp)
@@ -137,7 +101,7 @@ namespace game
                 }
                 else
                 {
-                    attacking.Hp = 0; //-= damageOfRespond
+                    attacking.Hp = 0;
                 }
                 Console.WriteLine($"{attacked.UnitType.Name} make {damageOfRespond} damage to {attacking.UnitType.Name} in return, {dead} dead");
 

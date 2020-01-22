@@ -8,6 +8,8 @@ namespace game.BattleArmyClasses
     {
         public Unit UnitType { get; }
 
+        public BattleUnit BattleUnit;
+
         public int StartAmount { get; }
 
         public int Amount => ( Math.Abs((double)Hp / (int)(UnitType.HitPoints) - Hp / (int)(UnitType.HitPoints))  <= double.Epsilon ? Hp / (int)(UnitType.HitPoints) : Hp / (int)(UnitType.HitPoints) + 1);
@@ -15,6 +17,8 @@ namespace game.BattleArmyClasses
         public int Hp { get; set; }
 
         public bool HasRespondThisTurn = false;
+        public bool EnemyDoesNotRespond = false;
+        public bool BeatAll = false;
 
         public bool IsAlive => Hp > 0;
 
@@ -73,7 +77,7 @@ namespace game.BattleArmyClasses
                     return magic.Item1;
             }
 
-            return TypeOfMagic.PunishingStrike;//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
+            return PunishingStrike.GetInstance();//надо чето придумать, тут не должно ничего быть, но оно сюда и не приходит по логике вызыва
         }
 
         public void BunToWiz(TypeOfMagic chosenMagic)
@@ -89,9 +93,10 @@ namespace game.BattleArmyClasses
         public BattleUnitsStack(UnitsStack unitsStack)
         {
             UnitType = unitsStack.UnitType.Clone();
+            BattleUnit = new BattleUnit(unitsStack.UnitType);
             StartAmount = unitsStack.Amount;
             Hp = unitsStack.Amount * (int) (unitsStack.UnitType.HitPoints);
-            Effects = new Effects();
+            Effects = new Effects(this);
             Magic = new List<(TypeOfMagic, bool)>();
             foreach (var magic in unitsStack.UnitType.AccessibleMagic)
             {
@@ -99,7 +104,7 @@ namespace game.BattleArmyClasses
             }
             foreach (var effect in unitsStack.UnitType.CongenitalEffects)
             {
-                Effects.AllEffects.Add((effect, -1));
+                Effects.Add((effect, -1));
             }
         }
         
